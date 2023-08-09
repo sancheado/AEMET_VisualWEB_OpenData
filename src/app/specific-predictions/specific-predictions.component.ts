@@ -291,18 +291,18 @@ export class SpecificPredictionsComponent {
     this.contentToChange = this.sharedService.contentToChange;
     // const workbook = this.loadExcelFile(this.pathString);
     // console.log('Contenido del archivo Excel:', workbook);
-    const filePath = 'assets/excel/todos.xlsx';
+//     const filePath = 'assets/excel/todos.xlsx';
 
-// Cargar el archivo Excel
-const workbook = XLSX.readFile(filePath);
+// // Cargar el archivo Excel
+// const workbook = XLSX.readFile(filePath);
 
-// Obtener la primera hoja del archivo
-const firstSheetName = workbook.SheetNames[0];
-const worksheet = workbook.Sheets[firstSheetName];
+// // Obtener la primera hoja del archivo
+// const firstSheetName = workbook.SheetNames[0];
+// const worksheet = workbook.Sheets[firstSheetName];
 
-// Leer contenido de celdas
-const cellValue = worksheet['A1'].v;
-console.log('Valor de la celda A1:', cellValue);
+// // Leer contenido de celdas
+// const cellValue = worksheet['A1'].v;
+// console.log('Valor de la celda A1:', cellValue);
 
 
     document.addEventListener('DOMContentLoaded', () => {
