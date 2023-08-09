@@ -1,0 +1,370 @@
+<div id="specificPredictions">
+  <section class="header-section">
+    <div class="container">
+      <div class="row">
+        <div class="body-header">
+          <a href="http://www.aemet.es" target="new"
+            ><img src="./assets/img/logo_AEMET_web.gif"
+          /></a>
+          <img src="./assets/img/logo_opendata_p.gif" />
+          <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
+          <h2 class="text-left">
+            Sistema para la visualización y reutilización de la información de
+            AEMET
+          </h2>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <div class="row">
+      <h1 class="text-left">{{ titleSection }}</h1>
+      <h4>{{ SubtitleSection }}</h4>
+      <ng-container *ngIf="SectionOPC1 && !ResponseAPI1">
+        <div class="search-box">
+          <div>
+            <label for="areaMontañosa">Área Montañosa:</label>
+            <select
+              id="areaMontañosa"
+              class="form-control"
+              [(ngModel)]="selectedArea"
+            >
+              <option
+                *ngFor="let area of areaMontanosaList"
+                [value]="area.codigo"
+              >
+                {{ area.areaMontaosa }}
+              </option>
+            </select>
+          </div>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC1()">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="SectionOPC1 && ResponseAPI1">
+        <div class="container">
+          <div class="row mt-4">
+            <div class="col-md-8 mx-auto">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Información del tiempo pasado</h5>
+                  <ul class="list-group">
+                    <li
+                      class="list-group-item"
+                      *ngFor="let parrafo of seccionData.parrafo"
+                    >
+                      {{ parrafo.texto }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-8 mx-auto">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ apiData.nombre }}</h5>
+                  <p class="card-text text-left txtTitle">Origen</p>
+                  <p class="card-text txtSubtitle">
+                    {{ apiData.origen.copyright }}
+                  </p>
+                  <p class="card-text txtTitle">Idioma</p>
+                  <ng-container
+                    *ngIf="
+                      apiData.origen.language === 'es';
+                      then spanishTemplate;
+                      else worldTemplate
+                    "
+                  ></ng-container>
+                  <ng-template #spanishTemplate>
+                    <img class="languageImg" src="./assets/img/España.png" />{{
+                      apiData.origen.language
+                    }}
+                  </ng-template>
+                  <ng-template #worldTemplate>
+                    <img class="languageImg" src="./assets/img/world.png" />{{
+                      apiData.origen.language
+                    }}
+                  </ng-template>
+
+                  <p class="card-text txtTitle">Nota legal</p>
+                  <p class="card-text txtSubtitle">
+                    <a href="{{ apiData.origen.notaLegal }}">{{
+                      apiData.origen.notaLegal
+                    }}</a>
+                  </p>
+                  <p class="card-text txtTitle">Productor</p>
+                  <p class="card-text txtSubtitle">
+                    {{ apiData.origen.productor }}
+                  </p>
+                  <p class="card-text txtTitle">Tipo</p>
+                  <p class="card-text txtSubtitle">{{ apiData.origen.tipo }}</p>
+                  <p class="card-text txtTitle">Web</p>
+                  <p class="card-text txtSubtitle">
+                    <a href="{{ apiData.origen.web }}">{{
+                      apiData.origen.web
+                    }}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="SectionOPC2">
+        <ng-container *ngIf="SectionOPC2 && !ResponseAPI2">
+          <div class="search-box">
+            <div>
+              <label for="areaMontañosa">Área Montañosa:</label>
+              <select
+                id="areaMontañosa"
+                class="form-control"
+                [(ngModel)]="selectedArea"
+              >
+                <option
+                  *ngFor="let area of areaMontanosaList"
+                  [value]="area.codigo"
+                >
+                  {{ area.areaMontaosa }}
+                </option>
+              </select>
+              <label for="areaMontañosa">Código de día:</label>
+              <select
+                id="codigoDia"
+                class="form-control"
+                [(ngModel)]="selectedArea2"
+              >
+                <option *ngFor="let dia of codigoDia" [value]="dia.codigo">
+                  {{ dia.dia }}
+                </option>
+              </select>
+            </div>
+            <div class="btnDiv">
+              <button
+                type="button"
+                class="btn-search"
+                (click)="callToApiOPC2()"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="SectionOPC2 && ResponseAPI2">
+          <div class="container">
+            <div *ngIf="seccionData2">
+              <div class="row mt-4">
+                <div class="col-md-8 mx-auto">
+                  <div class="card" *ngFor="let dato of datos">
+                    <div class="card-header cabecera">
+                      <h3>{{ dato.nombre }}</h3>
+                    </div>
+                    <div class="card-body">
+                      <ng-container *ngIf="dato.nombre === 'prediccion'">
+                        <ng-container
+                          *ngFor="let apartado of datos[0].apartado"
+                        >
+                          <div class="card-header cabecera">
+                            <h5>
+                              {{ apartado.cabecera }} - {{ apartado.nombre }}
+                            </h5>
+                          </div>
+                          <p>{{ apartado.texto }}</p>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="dato.nombre === 'atmosferalibre'">
+                        <ng-container
+                          *ngFor="let apartado1 of datos[1].apartado"
+                        >
+                          <div class="card-header">
+                            {{ apartado1.cabecera }} - {{ apartado1.nombre }}
+                          </div>
+                          <p>{{ apartado1.texto }}</p>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="dato.nombre === 'sensacion_termica'">
+                        <ng-container *ngFor="let lugar of datos[2].lugar">
+                          <div class="card-header">
+                            {{ lugar.nombre }} - {{ lugar.altitud }}
+                          </div>
+                          <p>
+                            Minima: {{ lugar.minima }}, Maxima:
+                            {{ lugar.maxima }}
+                          </p>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-8 mx-auto">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ apiData2.nombre }}</h5>
+                    <p class="card-text text-left txtTitle">Origen</p>
+                    <p class="card-text txtSubtitle">
+                      {{ apiData2.origen.copyright }}
+                    </p>
+                    <p class="card-text txtTitle">Idioma</p>
+                    <ng-container
+                      *ngIf="
+                        apiData2.origen.language === 'es';
+                        else worldTemplate
+                      "
+                    >
+                      <img class="languageImg" src="./assets/img/España.png" />
+                      {{ apiData2.origen.language }}
+                    </ng-container>
+                    <ng-template #worldTemplate>
+                      <img class="languageImg" src="./assets/img/world.png" />
+                      {{ apiData2.origen.language }}
+                    </ng-template>
+
+                    <p class="card-text txtTitle">Nota legal</p>
+                    <p class="card-text txtSubtitle">
+                      <a href="{{ apiData2.origen.notaLegal }}">{{
+                        apiData2.origen.notaLegal
+                      }}</a>
+                    </p>
+                    <p class="card-text txtTitle">Productor</p>
+                    <p class="card-text txtSubtitle">
+                      {{ apiData2.origen.productor }}
+                    </p>
+                    <p class="card-text txtTitle">Tipo</p>
+                    <p class="card-text txtSubtitle">
+                      {{ apiData2.origen.tipo }}
+                    </p>
+                    <p class="card-text txtTitle">Web</p>
+                    <p class="card-text txtSubtitle">
+                      <a href="{{ apiData2.origen.web }}">{{
+                        apiData2.origen.web
+                      }}</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="SectionOPC3">
+        <ng-container *ngIf="SectionOPC3 && !ResponseAPI3">
+          <div class="search-box">
+            <div>
+              <label for="areaMontañosa">Área Montañosa:</label>
+              <select
+                id="areaMontañosa3"
+                class="form-control"
+                [(ngModel)]="selectedArea3"
+              >
+                <option
+                  *ngFor="let area of areaMontanosaList2"
+                  [value]="area.codigo"
+                >
+                  {{ area.areaMontaosa }}
+                </option>
+              </select>
+            </div>
+            <div class="btnDiv">
+              <button
+                type="button"
+                class="btn-search"
+                (click)="callToApiOPC3()"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="SectionOPC3 && ResponseAPI3">
+          <pre id="responseMount">{{ responseData }}</pre>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="SectionOPC4">
+        <ng-container *ngIf="SectionOPC4 && !ResponseAPI4">
+          <div class="search-box">
+            <div>
+              <label for="areaMontañosa">C.Autónoma: </label>
+              <select
+                id="regions"
+                class="form-control"
+                [(ngModel)]="selectedProvince"
+                disabled
+              >
+                <option
+                  *ngFor="let region of regionList"
+                  [value]="region.codigoProvince"
+                >
+                  {{ region.nombre }}
+                </option>
+              </select>
+              <label for="areaMontañosa">Provincia: </label>
+              <select
+                id="provinces"
+                class="form-control"
+                [(ngModel)]="selectedProvince"
+              >
+                <option
+                  *ngFor="let province of provincesList"
+                  [value]="province.codigo"
+                >
+                  {{ province.provincia }}
+                </option>
+              </select>
+              <label for="munis">Municipio:</label>
+              <select
+                id="munis"
+                class="form-control"
+                [(ngModel)]="selectedMuni"
+              >
+                <!-- <option
+                  *ngFor="let muni of municipiosList"
+                  [value]="muni.codigo"
+                >
+                  {{ muni.municipio }}
+                </option> -->
+              </select>
+            </div>
+            <div class="btnDiv">
+              <button
+                type="button"
+                class="btn-search"
+                (click)="callToApiOPC3()"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="SectionOPC5">
+        Aqui entramos con {{ contentToChange }}
+      </ng-container>
+      <ng-container *ngIf="SectionOPC6">
+        Aqui entramos con {{ contentToChange }}
+      </ng-container>
+      <ng-container *ngIf="SectionOPC7">
+        Aqui entramos con {{ contentToChange }}
+      </ng-container>
+    </div>
+    <div class="row">
+      <!-- Agrega el botón de vuelta atrás -->
+      <button class="btn btnBack mx-auto" (click)="goBack()">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Llamar a la función cuando el DOM esté listo
+    callToApiOPC1();
+  });
+</script>
