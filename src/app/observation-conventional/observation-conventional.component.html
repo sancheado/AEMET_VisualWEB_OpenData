@@ -1,0 +1,86 @@
+<div class="observationConvetional">
+  <section class="header-section">
+    <div class="container">
+      <div class="row">
+        <div class="body-header">
+          <a href="http://www.aemet.es" target="new"
+            ><img src="./assets/img/logo_AEMET_web.gif"
+          /></a>
+          <img src="./assets/img/logo_opendata_p.gif" />
+          <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
+          <h2 class="text-left">
+            Sistema para la visualización y reutilización de la información de
+            AEMET
+          </h2>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    aqui entramos con: {{contentToChange}}
+    <ng-container *ngIf="sectionOPC8 && !sectionOPCResponse8">
+      <div class="row">
+        <h1 class="text-left">{{selectedTitle}}</h1>
+        <h4>{{selectedSubtitle}}</h4>
+
+        <div class="search-box">
+          <textarea id="explicationTextArea" [value]="selectedContent" disabled></textarea>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApis(1)">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC8 && sectionOPCResponse8">
+      <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let data of weatherData">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Cod AEMET(IDEMA) <br> {{ data.idema }}</h5>
+              <p class="card-text">Ubicación <br><strong><i class="fa fa-location-arrow" aria-hidden="true"></i>{{ data.ubi }}</strong></p>
+              <p class="card-text">Temperatura <br><strong>{{ data.ta }}°<i class="fa fa-thermometer-half" aria-hidden="true"></i></strong></p>
+              <p class="card-text">Altura <br><strong><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>{{ data.alt }} m.</strong></p>
+              <p class="card-text">Fecha y Hora de ultima actualización<br><strong>{{ formatDate(data.fint) }}</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC9 && !sectionOPCResponse9">
+      <div class="row">
+        <h1 class="text-left">{{selectedTitle}}</h1>
+        <h4>{{selectedSubtitle}}</h4>
+        <div class="search-box">
+          <div>
+            <label for="areaMontañosa">Elige la estación IDEMA:</label>
+          </div>
+          <select
+          id="idemaStations"
+          class="form-control"
+          [(ngModel)]="selectedIDEMA"
+        >
+          <option
+            *ngFor="let ubi of UbicacionList"
+            [value]="ubi.codigoInterno"
+          >
+            {{ ubi.Ubicacion }}
+          </option>
+        </select>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApis(2)">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="row">
+      <!-- Agrega el botón de vuelta atrás -->
+      <button class="btn btnBack mx-auto" (click)="goBack()">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+</div>

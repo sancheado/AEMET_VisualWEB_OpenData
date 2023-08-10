@@ -82,7 +82,7 @@ export class AppComponent {
       label: 'Opción 8',
       explication:
         'Datos de observación horarios de las últimas 24 horas todas las estaciones meteorológicas de las que se han recibido datos en ese período. Frecuencia de actualización: continuamente.',
-      contentToChange: '/api/prediccion/especifica/montaña/pasada/area/{area}/dia/{dia}',
+      contentToChange: '/api/observacion/convencional/todas',
       option:'Datos de observación. Tiempo actual.',
     },
 
@@ -553,13 +553,19 @@ export class AppComponent {
 
   selectedOption: Option = this.opcionesGrupo1[0];
   selectedOption2: string = 'opcion1';
-  constructor(private router: Router, private sharedService: SharedService) {}
+  changeStyle: boolean = false;
+
+
+
+
+  constructor(private router: Router, private sharedService: SharedService,private elementRef: ElementRef) {}
 
   onOptionChange(): void {
     this.sharedService.contentToChange = this.selectedOption.value;
   }
 
   onContinueClick(): void {
+    // const divElement = this.elementRef.nativeElement.querySelector('.appComponent');
     const selectedOptionValue = this.selectedOption.value;
     if (
       ['opcion1', 'opcion2', 'opcion3', 'opcion4', 'opcion5', 'opcion6', 'opcion7'].includes(
@@ -568,15 +574,15 @@ export class AppComponent {
     ) {
       if(this.sharedService.contentToChange === null || this.sharedService.contentToChange === ''){
         this.sharedService.contentToChange = 'opcion1';
-        console.log('selectedOptionValue: ', selectedOptionValue);
-        console.log('this.sharedService.contentToChange: ', this.sharedService.contentToChange);
       }
-      else{
-        console.log('selectedOptionValue: ', selectedOptionValue);
-        console.log('this.sharedService.contentToChange: ', this.sharedService.contentToChange);
-      }
+      // divElement.style.display = 'none';
       this.router.navigateByUrl('/specific-predictions');
-    } else {
+    } else if(['opcion8', 'opcion9', 'opcion10'].includes(
+      selectedOptionValue
+    )){
+      // divElement.style.display = 'none';
+      this.router.navigateByUrl('/observation-conventional');
+    }else {
       console.log('Opción inválida');
     }
   }

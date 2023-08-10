@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpecificPredictionsComponent } from './specific-predictions/specific-predictions.component';
 import { FormsModule } from '@angular/forms';
+import { ObservationConventionalComponent } from './observation-conventional/observation-conventional.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SpecificPredictionsComponent
+    SpecificPredictionsComponent,
+    ObservationConventionalComponent
   ],
   imports: [
     BrowserModule,

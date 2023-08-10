@@ -65,7 +65,7 @@ body {
 textarea {
   border: 0.5px solid lightgrey;
   width: 98.5%;
-  height: 125px;
+  height: 225px;
 }
 
 .search-box select {
@@ -113,3 +113,5 @@ footer {
   bottom: 0;
   width: 98.8%;
 }
+
+.changeStyle{display:none;}

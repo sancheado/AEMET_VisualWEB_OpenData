@@ -8,6 +8,7 @@ import { ParrafoItem } from '../ResponseAPI1';
 import { Location } from '@angular/common';
 import ResponseAPI2 from '../ResponseAPI2';
 import * as XLSX from 'xlsx';
+import { AppComponent } from '../app.component';
 
 interface AreaMontañosa {
   codigo: string;
@@ -284,10 +285,12 @@ export class SpecificPredictionsComponent {
   constructor(
     private sharedService: SharedService,
     private http: HttpClient,
-    private location: Location
+    private location: Location,
+    private appComponente: AppComponent
   ) {}
 
   ngOnInit(): void {
+    this.appComponente.changeStyle = true;
     this.contentToChange = this.sharedService.contentToChange;
     // const workbook = this.loadExcelFile(this.pathString);
     // console.log('Contenido del archivo Excel:', workbook);
@@ -536,6 +539,7 @@ export class SpecificPredictionsComponent {
 
 
   goBack(): void {
+    this.appComponente.changeStyle = false;
     this.location.back();
   }
 }
