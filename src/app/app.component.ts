@@ -91,7 +91,7 @@ export class AppComponent {
       label: 'Opción 9',
       explication:
         'Datos de observación horarios de las últimas 24 horas de la estación meterológica que se pasa como parámetro (idema). Frecuencia de actualización: continuamente.',
-      contentToChange: '/api/prediccion/especifica/montaña/pasada/area/{area}/dia/{dia}',
+      contentToChange: '/api/observacion/convencional/datos/estacion/{idema}',
       option:'Datos de observación. Tiempo actual.',
     },
     {
@@ -99,7 +99,7 @@ export class AppComponent {
       label: 'Opción 10',
       explication:
         'Últimos mensajes de observación. Para los SYNOP y TEMP devuelve los mensajes de las últimas 24 horas y para los CLIMAT de los 40 últimos dias. Se pasa como parámetro el tipo de mensaje que se desea (tipomensaje). El resultado de la petición es un fichero en formato tar.gz, que contiene los boletines en formato json y bufr.',
-      contentToChange: '/api/prediccion/especifica/montaña/pasada/area/{area}/dia/{dia}',
+      contentToChange: '/api/observacion/convencional/mensajes/tipomensaje/{tipomensaje}',
       option:'Mensajes de observación. Último elaborado.',
     },
   ]

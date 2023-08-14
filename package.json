@@ -24,6 +24,7 @@
     "dotenv-ng": "^1.1.4",
     "environments": "^1.2.7",
     "exceljs": "^4.3.0",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.7.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

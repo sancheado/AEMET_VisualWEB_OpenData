@@ -17,12 +17,10 @@
     </div>
   </section>
   <div class="container">
-    aqui entramos con: {{contentToChange}}
     <ng-container *ngIf="sectionOPC8 && !sectionOPCResponse8">
       <div class="row">
         <h1 class="text-left">{{selectedTitle}}</h1>
         <h4>{{selectedSubtitle}}</h4>
-
         <div class="search-box">
           <textarea id="explicationTextArea" [value]="selectedContent" disabled></textarea>
           <div class="btnDiv">
@@ -70,6 +68,58 @@
         </select>
           <div class="btnDiv">
             <button type="button" class="btn-search" (click)="callToApis(2)">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC9 && sectionOPCResponse9">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-6 mb-4" *ngFor="let dataItem of observationData">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Cod. AEMET(IDEMA): <br> {{ dataItem.idema }}</h5>
+                <p class="card-text">Ubicación: {{ dataItem.ubi }}</p>
+                <p class="card-text">Fecha y Hora: {{formatDate(dataItem.fint)}}</p>
+                <p class="card-text">Temperatura Máxima: {{ dataItem.tamax }}</p>
+                <p class="card-text">Temperatura Mínima: {{ dataItem.tamin }}</p>
+                <p class="card-text">Temperatura Media: {{ dataItem.ta }}</p>
+                <p class="card-text">Humedad Relativa: {{ dataItem.hr }}%.</p>
+                <p class="card-text">Precipitación: {{ dataItem.prec }}mm.</p>
+                <p class="card-text">Altitud: {{ dataItem.alt }}m.</p>
+                <p class="card-text">Latitud: {{ dataItem.lat }}</p>
+                <p class="card-text">Longitud: {{ dataItem.lon }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC10 && !sectionOPCResponse10">
+      <div class="row">
+        <h1 class="text-left">{{selectedTitle}}</h1>
+        <h4>{{selectedSubtitle}}</h4>
+        <div class="search-box">
+          <textarea id="explicationTextArea" [value]="selectedContent" style="height: 200px;" disabled></textarea>
+          <div>
+            <label for="areaMontañosa">Elige la estación IDEMA:</label>
+          </div>
+          <select
+          id="tipoMensa"
+          class="form-control"
+          [(ngModel)]="selectedTipo"
+        >
+          <option
+            *ngFor="let tipo of tipoMensajeList"
+            [value]="tipo.tipo"
+          >
+            {{ tipo.codigo }}
+          </option>
+        </select>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApis(3)">
               Continuar
             </button>
           </div>

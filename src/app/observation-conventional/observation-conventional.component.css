@@ -130,3 +130,13 @@ textarea {
   width: 98.5%;
   height: 125px;
 }
+.search-box .btn-search {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #fbcf00;
+  color: #f8f9fa;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
