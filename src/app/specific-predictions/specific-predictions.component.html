@@ -346,11 +346,154 @@
       <ng-container *ngIf="SectionOPC5">
         Aqui entramos con {{ contentToChange }}
       </ng-container>
-      <ng-container *ngIf="SectionOPC6">
-        Aqui entramos con {{ contentToChange }}
+      <ng-container *ngIf="SectionOPC6 && !ResponseAPI6">
+        <div class="search-box">
+          <div>
+            <label for="playaName">Nombre Playa: </label>
+            <select
+              id="beachName"
+              class="form-control"
+              [(ngModel)]="selectedPlaya"
+              (ngModelChange)="onPlayaSelected()"
+            >
+              <option *ngFor="let beach of beaches" [value]="beach.ID_PLAYA">
+                {{ beach.NOMBRE_PLAYA }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label for="municipioName">Municipio: </label>
+            <select
+              id="municipioName"
+              class="form-control"
+              [(ngModel)]="selectedMunicipio"
+              disabled
+            >
+              <option value="{{ selectedMunicipio }}">
+                {{ selectedMunicipio }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label for="provinceName">Provincia: </label>
+            <select
+              id="provinciaName"
+              class="form-control"
+              [(ngModel)]="selectedProvincia"
+              disabled
+            >
+              <option value="{{ selectedProvincia }}">
+                {{ selectedProvincia }}
+              </option>
+            </select>
+          </div>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC6()">
+              Continuar
+            </button>
+          </div>
+        </div>
+        <!-- <ng-container *ngIf="SectionOPC6 && !ResponseAPI6">
+          <div class="search-box">
+            <div>
+              <label for="playaName">Nombre Playa: </label>
+              <select
+                id="beachName"
+                class="form-control"
+                [(ngModel)]="selectedPlaya"
+              >
+              </select>
+            </div>
+            <div>
+              <label for="provinceName">Provincia: </label>
+              <select
+                id="provinciaName"
+                class="form-control"
+                [(ngModel)]="selectedProvincia"
+                disabled
+              >
+              </select>
+            </div>
+            <div>
+              <label for="municipioName">Municipio: </label>
+              <select
+                id="provinciaName"
+                class="form-control"
+                [(ngModel)]="selectedMunicipio"
+                disabled
+              >
+              </select>
+            </div>
+          </div>
+        </ng-container> -->
+      </ng-container>
+      <ng-container *ngIf="SectionOPC6 && ResponseAPI6">
+        <div *ngIf="beachForecast" class="container mt-4">
+          <div class="card">
+            <div class="card-header">
+              <h2>{{ beachForecast.nombre }}</h2>
+            </div>
+            <div class="card-body">
+              <p><strong>Localidad:</strong> {{ beachForecast.localidad }}</p>
+              <p><strong>Elaborado:</strong> {{ beachForecast.elaborado | date:'medium' }}</p>
+            </div>
+          </div>
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Pronóstico</h3>
+            </div>
+            <div *ngFor="let dia of beachForecast.prediccion.dia; let i = index" class="card-body">
+              <h4>{{ formatDate(dia.fecha, i) }}</h4>
+              <p><strong>Estado del cielo:</strong> {{ dia.estadoCielo.descripcion1 }}</p>
+              <p><strong>Viento:</strong> {{ dia.viento.descripcion1 }}</p>
+              <p><strong>Oleaje:</strong> {{ dia.oleaje.descripcion1 }}</p>
+              <p><strong>Temperatura máxima:</strong> {{ dia.tMaxima.valor1 }} °C</p>
+              <p><strong>Sensación térmica:</strong> {{ dia.sTermica.descripcion1 }}</p>
+              <p><strong>Temperatura del agua:</strong> {{ dia.tAgua.valor1 }} °C</p>
+              <p><strong>Índice UV máximo:</strong> {{ dia.uvMax.valor1 }}</p>
+            </div>
+          </div>
+        </div>
       </ng-container>
       <ng-container *ngIf="SectionOPC7">
-        Aqui entramos con {{ contentToChange }}
+        <ng-container *ngIf="SectionOPC7 && !ResponseAPI7">
+          <div class="search-box">
+            <div>
+              <label for="playaName">Codigo de día: </label>
+              <select
+                id="violeta"
+                class="form-control"
+                [(ngModel)]="selectedVioleta"
+              >
+                <option *ngFor="let indice of option7List" [value]="indice.codigo">
+                  {{ indice.dia }}
+                </option>
+              </select>
+            </div>
+            <div class="btnDiv">
+              <button type="button" class="btn-search" (click)="callToApiOPC7()">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="SectionOPC7 && ResponseAPI7">
+          <table>
+            <thead>
+              <tr>
+                <th>Ciudad</th>
+                <th>Radiación UV</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let beach of uvData">
+                <ng-container *ngIf="beach.Ciudad !== null || beach['Radiación UV'] != null"></ng-container>
+                <td>{{ beach.Ciudad }}</td>
+                <td>{{ beach["Radiación UV"] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
       </ng-container>
     </div>
     <div class="row">

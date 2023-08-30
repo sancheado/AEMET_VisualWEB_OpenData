@@ -9,11 +9,13 @@ interface Option {
   contentToChange: string;
   option: string;
 }
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
+
 export class AppComponent {
   title = 'AEMET VisualWEB OpenData';
 
@@ -555,9 +557,6 @@ export class AppComponent {
   selectedOption2: string = 'opcion1';
   changeStyle: boolean = false;
 
-
-
-
   constructor(private router: Router, private sharedService: SharedService,private elementRef: ElementRef) {}
 
   onOptionChange(): void {
@@ -565,7 +564,6 @@ export class AppComponent {
   }
 
   onContinueClick(): void {
-    // const divElement = this.elementRef.nativeElement.querySelector('.appComponent');
     const selectedOptionValue = this.selectedOption.value;
     if (
       ['opcion1', 'opcion2', 'opcion3', 'opcion4', 'opcion5', 'opcion6', 'opcion7'].includes(
@@ -575,12 +573,10 @@ export class AppComponent {
       if(this.sharedService.contentToChange === null || this.sharedService.contentToChange === ''){
         this.sharedService.contentToChange = 'opcion1';
       }
-      // divElement.style.display = 'none';
       this.router.navigateByUrl('/specific-predictions');
     } else if(['opcion8', 'opcion9', 'opcion10'].includes(
       selectedOptionValue
     )){
-      // divElement.style.display = 'none';
       this.router.navigateByUrl('/observation-conventional');
     }else {
       console.log('Opción inválida');

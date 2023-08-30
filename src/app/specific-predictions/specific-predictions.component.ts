@@ -7,8 +7,12 @@ import { SeccionItem } from '../ResponseAPI1';
 import { ParrafoItem } from '../ResponseAPI1';
 import { Location } from '@angular/common';
 import ResponseAPI2 from '../ResponseAPI2';
-import * as XLSX from 'xlsx';
 import { AppComponent } from '../app.component';
+import { BeachForecast } from '../BeachForecast';
+import { DatePipe } from '@angular/common';
+import * as Papa from 'papaparse';
+
+
 
 interface AreaMontañosa {
   codigo: string;
@@ -58,6 +62,17 @@ interface Province {
   codigo: string;
   provincia: string;
 }
+
+interface Option7 {
+  codigo: string;
+  dia: string;
+}
+
+interface UvData  {
+  Ciudad: string;
+  "Radiación UV": string;
+}
+
 @Component({
   selector: 'app-specific-predictions',
   templateUrl: './specific-predictions.component.html',
@@ -269,6 +284,14 @@ export class SpecificPredictionsComponent {
     { codigo: '52', provincia: 'Melilla' },
   ];
 
+  option7List: Option7[] = [
+    { codigo: '0', dia: 'día actual' },
+    { codigo: '1', dia: 'd+1 (mañana)' },
+    { codigo: '2', dia: 'd+2 (pasado mañana)' },
+    { codigo: '3', dia: 'd+3 (dentro de 3 días)' },
+    { codigo: '4', dia: 'd+4 (dentro de 4 días)' },
+  ];
+
   selectedArea2: string = '0';
   selectedArea3: string = '0';
   selectedProvince: string = '03';
@@ -276,11 +299,17 @@ export class SpecificPredictionsComponent {
   htmlContent: string = '';
   datos: any = [];
   responseData: string | null = null;
-  pathString: string = "./assets/excel/todos.xlsx";
+  pathString: string = './assets/excel/todos.xlsx';
   municipiosList: { municipio: string; codigo: number }[] = [];
   selectedMuni = '';
-
-
+  beaches: any[] = [];
+  selectedPlaya: string = '0301101';
+  selectedProvincia: string = 'Alacant/Alicante';
+  selectedMunicipio: string = 'lAlfàs del Pi';
+  beachForecast: BeachForecast | null = null;
+  selectedVioleta: string = '0';
+  uvData: UvData[] = [];
+  // uvData: { city: string; uvIndex: number | null }[] = [];
 
   constructor(
     private sharedService: SharedService,
@@ -294,19 +323,18 @@ export class SpecificPredictionsComponent {
     this.contentToChange = this.sharedService.contentToChange;
     // const workbook = this.loadExcelFile(this.pathString);
     // console.log('Contenido del archivo Excel:', workbook);
-//     const filePath = 'assets/excel/todos.xlsx';
+    //     const filePath = 'assets/excel/todos.xlsx';
 
-// // Cargar el archivo Excel
-// const workbook = XLSX.readFile(filePath);
+    // // Cargar el archivo Excel
+    // const workbook = XLSX.readFile(filePath);
 
-// // Obtener la primera hoja del archivo
-// const firstSheetName = workbook.SheetNames[0];
-// const worksheet = workbook.Sheets[firstSheetName];
+    // // Obtener la primera hoja del archivo
+    // const firstSheetName = workbook.SheetNames[0];
+    // const worksheet = workbook.Sheets[firstSheetName];
 
-// // Leer contenido de celdas
-// const cellValue = worksheet['A1'].v;
-// console.log('Valor de la celda A1:', cellValue);
-
+    // // Leer contenido de celdas
+    // const cellValue = worksheet['A1'].v;
+    // console.log('Valor de la celda A1:', cellValue);
 
     document.addEventListener('DOMContentLoaded', () => {
       const selectElement: HTMLSelectElement = document.getElementById(
@@ -371,6 +399,7 @@ export class SpecificPredictionsComponent {
         case 'opcion6':
           this.SectionOPC6 = true;
           this.SubtitleSection = 'Predicción para las playas. Tiempo actual.';
+          this.readCSV();
           break;
         case 'opcion7':
           this.SectionOPC7 = true;
@@ -380,7 +409,6 @@ export class SpecificPredictionsComponent {
       }
     }
     console.log('Contenido recibido:', this.contentToChange);
-
   }
 
   callToApiOPC1(): void {
@@ -537,6 +565,129 @@ export class SpecificPredictionsComponent {
   //   }
   // }
 
+  callToApiOPC6(): void {
+    const playa = (document.getElementById('beachName') as HTMLSelectElement)
+      .value;
+    console.log('playa:', playa);
+
+    const apiKey = environment.apiKey;
+
+    const apiUrl = `https://opendata.aemet.es/opendata/api/prediccion/especifica/playa/${playa}?api_key=${apiKey}`;
+
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        console.log('response', response);
+
+        if (response && response.datos) {
+          const dataUrl = response.datos;
+
+          this.http.get<BeachForecast[]>(dataUrl).subscribe(
+            (forecastResponse: BeachForecast[]) => {
+              console.log('forecastResponse', forecastResponse);
+              if (forecastResponse.length > 0) {
+                this.ResponseAPI6 = true;
+                this.beachForecast = forecastResponse[0];
+              } else {
+                console.error('Los datos de pronóstico están vacíos.');
+              }
+            },
+            (forecastError) => {
+              console.error(
+                'Error al obtener los datos de pronóstico:',
+                forecastError
+              );
+            }
+          );
+        } else {
+          console.error('La respuesta de la API no contiene el campo "datos".');
+        }
+      },
+      (apiError) => {
+        console.error(
+          'Error al obtener la URL de los datos de la API:',
+          apiError
+        );
+      }
+    );
+  }
+
+  readCSV() {
+    const csvFilePath = './assets/excel/Playas_codigos.csv';
+    Papa.parse(csvFilePath, {
+      header: true,
+      download: true,
+      skipEmptyLines: true,
+      complete: (result: { data: any[]; }) => {
+        this.beaches = result.data;
+      },
+    });
+    console.log(this.beaches);
+  }
+
+  onPlayaSelected() {
+    const selectedBeach = this.beaches.find(
+      (beach) => beach.ID_PLAYA === this.selectedPlaya
+    );
+    if (selectedBeach) {
+      this.selectedProvincia = selectedBeach.NOMBRE_PROVINCIA;
+      this.selectedMunicipio = selectedBeach.NOMBRE_MUNICIPIO;
+    }
+  }
+
+  formatDate(fecha: number, index: number): string {
+    const days = ['Hoy', 'Mañana', 'Pasado Mañana'];
+    const date = new Date(fecha * 1000);
+
+    const day = ('0' + date.getDate()).slice(-2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+
+    return `${days[index]}`;
+  }
+
+  callToApiOPC7(): void {
+    const violeta = (document.getElementById('violeta') as HTMLSelectElement).value;
+    console.log('violeta:', violeta);
+    const apiKey = environment.apiKey;
+    const apiUrl = `https://opendata.aemet.es/opendata/api/prediccion/especifica/uvi/${violeta}?api_key=${apiKey}`;
+    console.log(apiUrl);
+
+    this.http.get(apiUrl).subscribe((response: any) => {
+      console.log('response', response);
+      if (response && response.datos) {
+        const dataUrl = response.datos;
+        console.log('dataUrl:', dataUrl);
+        this.http.get(dataUrl, { responseType: 'text' }).subscribe((responseText: string) => {
+          // Encontrar el índice donde comienzan los datos CSV
+          const csvStartIndex = responseText.indexOf('"Ciudad","Radiación UV"');
+
+          // Obtener la parte de la respuesta que contiene los datos CSV
+          const csvData = responseText.substring(csvStartIndex);
+
+          // Ahora puedes usar la librería PapaParse para analizar los datos CSV
+          Papa.parse(csvData, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (result: { data: any[] }) => {
+              // Aquí puedes procesar los datos como desees
+              console.log(result.data);
+              this.ResponseAPI7 = true;
+              this.uvData = result.data;
+              console.log("uvData: ", this.uvData);
+              console.log("uvData[0].city: ", this.uvData[0].Ciudad);
+              console.log("uvData[0].Radiation: ", this.uvData[0]["Radiación UV"]);
+              console.log("uvData[1].city: ", this.uvData[1].Ciudad);
+              console.log("uvData[1].Radiation: ", this.uvData[1]["Radiación UV"]);
+              console.log("uvData[2].city: ", this.uvData[2].Ciudad);
+              console.log("uvData[2].Radiation: ", this.uvData[2]["Radiación UV"]);
+              console.log("uvData[3].city: ", this.uvData[3].Ciudad);
+              console.log("uvData[3].Radiation: ", this.uvData[3]["Radiación UV"]);
+            },
+          });
+        });
+      }
+    });
+  }
 
   goBack(): void {
     this.appComponente.changeStyle = false;
