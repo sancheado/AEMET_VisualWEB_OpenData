@@ -135,3 +135,5 @@
   cursor: pointer;
   font-weight: 500;
 }
+.stateCieloText{font-size:12.5px}
+.borderDivs{border: .3px solid #D0D4D6;margin: 10px;}

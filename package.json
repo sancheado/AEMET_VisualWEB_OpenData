@@ -22,6 +22,7 @@
     "bootstrap": "^5.3.1",
     "cheerio": "^1.0.0-rc.12",
     "csv-parser": "^3.0.0",
+    "date-fns": "^2.30.0",
     "dotenv-ng": "^1.1.4",
     "environments": "^1.2.7",
     "exceljs": "^4.3.0",
@@ -31,6 +32,7 @@
     "rxjs": "~7.8.0",
     "stream-browserify": "^3.0.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "xlsx-populate": "^1.21.0",
     "zone.js": "~0.13.0"
   },

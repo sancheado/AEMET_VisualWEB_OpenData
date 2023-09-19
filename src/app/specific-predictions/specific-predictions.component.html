@@ -294,7 +294,7 @@
               <select
                 id="regions"
                 class="form-control"
-                [(ngModel)]="selectedProvince"
+                [(ngModel)]="selectedRegion"
                 disabled
               >
                 <option
@@ -309,6 +309,7 @@
                 id="provinces"
                 class="form-control"
                 [(ngModel)]="selectedProvince"
+                (change)="onProvinceChange()"
               >
                 <option
                   *ngFor="let province of provincesList"
@@ -317,34 +318,694 @@
                   {{ province.provincia }}
                 </option>
               </select>
-              <label for="munis">Municipio:</label>
+              <label for="munis">Seleccione un Municipio:</label>
               <select
                 id="munis"
                 class="form-control"
                 [(ngModel)]="selectedMuni"
+                *ngIf="excelMunicipiosData && excelMunicipiosData.length > 0"
               >
-                <!-- <option
-                  *ngFor="let muni of municipiosList"
-                  [value]="muni.codigo"
+                <option
+                  *ngFor="let municipio of filteredData"
+                  [value]="municipio.CODMUN"
                 >
-                  {{ muni.municipio }}
-                </option> -->
+                  {{ municipio.NOMBRE }}
+                </option>
               </select>
             </div>
             <div class="btnDiv">
               <button
                 type="button"
                 class="btn-search"
-                (click)="callToApiOPC3()"
+                (click)="callToApiOPC4()"
               >
                 Continuar
               </button>
             </div>
           </div>
         </ng-container>
+        <ng-container *ngIf="SectionOPC4 && ResponseAPI4">
+          <br />
+          <div class="row">
+            <div class="col-md-8 mx-auto" *ngFor="let muni of municipioData">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row d-flex justify-content-around">
+                    <div class="col-sm">
+                      <h3 class="card-title text-center">Provincia</h3>
+                      <br />
+                      <p class="card-text text-center">
+                        <strong>{{ muni.provincia }}</strong>
+                      </p>
+                    </div>
+                    <div class="col-sm">
+                      <h3 class="card-title text-center">Municipio</h3>
+                      <br />
+                      <p class="card-text text-center">
+                        <strong>{{ muni.nombre }}</strong>
+                      </p>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="d-flex justify-content-center">
+                    <div>
+                      <h4 class="card-title text-center">
+                        Informe elaborado el
+                        {{ reformatearDate(muni.elaborado) }}
+                      </h4>
+                    </div>
+                  </div>
+                  <br />
+                  <br />
+                  <h3 class="card-title text-center">Predicción</h3>
+                  <br />
+                  <br />
+                  <div class="row">
+                    <div
+                      class="col-6"
+                      *ngFor="let dayPrediction of muni.prediccion.dia"
+                    >
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <p class="card-title text-center">
+                            <strong>{{
+                              reformatearSecondDate(dayPrediction.fecha)
+                            }}</strong>
+                          </p>
+                          <hr />
+                          <p class="card-text text-center">
+                            Temp máx:
+                            <strong
+                              ><i class="fab fa fa-fire" aria-hidden="true"></i
+                              >{{ dayPrediction.temperatura.maxima }}º</strong
+                            >
+                          </p>
+                          <p class="card-text text-center">
+                            Temp mín:
+                            <strong
+                              >{{ dayPrediction.temperatura.minima }}º</strong
+                            >
+                          </p>
+                          <hr />
+                          <p class="card-title text-center">cotaNieveProv</p>
+                          <div class="row">
+                            <div class="col-sm">
+                              <div
+                                class="row"
+                                *ngFor="
+                                  let cotaNieveProv of dayPrediction.cotaNieveProv
+                                "
+                              >
+                                <ng-container
+                                  *ngIf="
+                                    cotaNieveProv.value !== undefined &&
+                                      cotaNieveProv.value !== '';
+                                    else noData
+                                  "
+                                >
+                                  <p class="card-text text-center">
+                                    {{ cotaNieveProv.value }} ->
+                                    {{ cotaNieveProv.periodo }}
+                                  </p>
+                                </ng-container>
+                                <ng-template #noData> </ng-template>
+                              </div>
+                            </div>
+                          </div>
+                          <hr />
+                          <p class="card-title text-center">
+                            Estado del cielo:
+                          </p>
+                          <div class="row" style="min-height: 320px">
+                            <div
+                              class="col-6"
+                              *ngFor="
+                                let stateCielo of dayPrediction.estadoCielo
+                              "
+                            >
+                              <p
+                                *ngIf="
+                                  stateCielo.descripcion !== '';
+                                  else noStateCielo
+                                "
+                                class="card-title text-center"
+                              >
+                                {{ stateCielo.periodo }}h.
+                              </p>
+                              <p
+                                *ngIf="
+                                  stateCielo.descripcion !== '';
+                                  else noStateCielo
+                                "
+                                class="card-text text-center"
+                              >
+                                {{ stateCielo.descripcion }}
+                              </p>
+                              <ng-template #noStateCielo> </ng-template>
+                            </div>
+                          </div>
+                          <hr />
+                          <p class="card-title text-center">Humedad Relativa</p>
+                          <p class="card-text text-center">
+                            Máx -> {{ dayPrediction.humedadRelativa.maxima }}
+                          </p>
+                          <p class="card-text text-center">
+                            Min -> {{ dayPrediction.humedadRelativa.minima }}
+                          </p>
+                          <div
+                            *ngFor="
+                              let dato of dayPrediction.humedadRelativa.dato
+                            "
+                            class="d-flex justify-content-center"
+                          >
+                            <p class="card-text text-center">
+                              <ng-template
+                                *ngIf="dato.hora < 12; else nightTime"
+                              >
+                                {{ dato.hora }}:00 AM
+                              </ng-template>
+                              <ng-template #nightTime>
+                                {{ dato.hora }}:00 PM
+                              </ng-template>
+                            </p>
+                            <p class="card-text text-center">
+                              Valor: {{ dato.value }}
+                            </p>
+                          </div>
+                          <hr />
+                          <p class="card-title text-center">
+                            Probabilidad Precipitación
+                          </p>
+                          <div
+                            class="row"
+                            *ngFor="
+                              let preci of dayPrediction.probPrecipitacion
+                            "
+                          >
+                            <div style="min-height: 320px">
+                              <p
+                                class="card-title text-center"
+                                *ngIf="preci.value !== 0"
+                              >
+                                {{ preci.periodo }}hs
+                              </p>
+                              <p
+                                class="card-text text-center mb-2"
+                                *ngIf="preci.value !== 0"
+                              >
+                                {{ preci.value }}%
+                              </p>
+                            </div>
+                          </div>
+                          <hr />
+                          <p class="card-title text-center">Racha Maxima</p>
+                          <div *ngFor="let racha of dayPrediction.rachaMax">
+                            <p
+                              class="card-title text-center"
+                              *ngIf="racha.value !== null"
+                            >
+                              {{ racha.periodo }}
+                            </p>
+                            <p
+                              class="card-text text-center"
+                              *ngIf="racha.value !== null"
+                            >
+                              {{ racha.value }}
+                            </p>
+                          </div>
+                          <hr />
+                          <p class="card-title text-center">
+                            Sensación Térmica
+                          </p>
+                          <div
+                            *ngIf="dayPrediction.sensTermica.dato.length > 0"
+                          >
+                            <div
+                              *ngFor="
+                                let sensTermica of dayPrediction.sensTermica
+                                  .dato
+                              "
+                            >
+                              <p class="card-title text-center">
+                                A las {{ sensTermica.hora }}
+                              </p>
+                              <p class="card-text text-center">
+                                {{ sensTermica.value }}º
+                              </p>
+                            </div>
+                          </div>
+                          <hr />
+                          <p class="card-title text-center">UV Máx</p>
+                          <p class="card-text text-center">
+                            {{ dayPrediction.uvMax }}
+                          </p>
+                          <hr />
+                          <p class="card-title text-center">Viento</p>
+                          <div *ngIf="dayPrediction.viento.velocidad !== 0">
+                            <div *ngFor="let viento of dayPrediction.viento">
+                              <div class="d-flex justify-content-center">
+                                <div class="col">
+                                  <p class="card-text text-center">
+                                    {{ viento.periodo }}
+                                  </p>
+                                </div>
+                                <div class="col">
+                                  <p class="card-text text-center">
+                                    {{ viento.velocidad }}
+                                  </p>
+                                </div>
+                                <div class="col">
+                                  <p class="card-text text-center">
+                                    {{ viento.direccion }}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-8 mx-auto" *ngFor="let muni of municipioData">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text text-left txtTitle">Origen</p>
+                  <p class="card-text txtSubtitle">
+                    {{ muni.origen.productor }}
+                  </p>
+                  <p class="card-text txtTitle">Idioma</p>
+                  <ng-container
+                    *ngIf="muni.origen.language === 'es'; else worldTemplate"
+                  >
+                    <img class="languageImg" src="./assets/img/España.png" />
+                    {{ muni.origen.language }}
+                  </ng-container>
+                  <ng-template #worldTemplate>
+                    <img class="languageImg" src="./assets/img/world.png" />
+                    {{ muni.origen.language }}
+                  </ng-template>
+
+                  <p class="card-text txtTitle">Nota legal</p>
+                  <p class="card-text txtSubtitle">
+                    {{ muni.origen.copyright }}
+                  </p>
+                  <p class="card-text txtTitle">Productor</p>
+                  <p class="card-text txtSubtitle">
+                    {{ muni.origen.productor }}
+                  </p>
+                  <p class="card-text txtTitle">Web</p>
+                  <p class="card-text txtSubtitle">
+                    <a href="{{ muni.origen.web }}">{{ muni.origen.web }}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </ng-container>
-      <ng-container *ngIf="SectionOPC5">
-        Aqui entramos con {{ contentToChange }}
+      <ng-container *ngIf="SectionOPC5 && !ResponseAPI5">
+        <div class="search-box">
+          <div>
+            <label for="areaMontañosa">C.Autónoma: </label>
+            <select
+              id="regions"
+              class="form-control"
+              [(ngModel)]="selectedRegion"
+              disabled
+            >
+              <option
+                *ngFor="let region of regionList"
+                [value]="region.codigoProvince"
+              >
+                {{ region.nombre }}
+              </option>
+            </select>
+            <label for="areaMontañosa">Provincia: </label>
+            <select
+              id="provinces"
+              class="form-control"
+              [(ngModel)]="selectedProvince"
+              (change)="onProvinceChange()"
+            >
+              <option
+                *ngFor="let province of provincesList"
+                [value]="province.codigo"
+              >
+                {{ province.provincia }}
+              </option>
+            </select>
+            <label for="munis">Seleccione un Municipio:</label>
+            <select
+              id="munis"
+              class="form-control"
+              [(ngModel)]="selectedMuni"
+              *ngIf="excelMunicipiosData && excelMunicipiosData.length > 0"
+            >
+              <option
+                *ngFor="let municipio of filteredData"
+                [value]="municipio.CODMUN"
+              >
+                {{ municipio.NOMBRE }}
+              </option>
+            </select>
+          </div>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC5()">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="SectionOPC5 && ResponseAPI5">
+        <br />
+        <div class="row">
+          <div class="col-md-8 mx-auto" *ngFor="let muni of municipioData2">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row d-flex justify-content-around">
+                  <div class="col-sm">
+                    <h3 class="card-title text-center">Provincia</h3>
+                    <br />
+                    <p class="card-text text-center">
+                      <strong>{{ muni.provincia }}</strong>
+                    </p>
+                  </div>
+                  <div class="col-sm">
+                    <h3 class="card-title text-center">Municipio</h3>
+                    <br />
+                    <p class="card-text text-center">
+                      <strong>{{ muni.nombre }}</strong>
+                    </p>
+                  </div>
+                </div>
+                <br />
+                <div class="d-flex justify-content-center">
+                  <div>
+                    <h4 class="card-title text-center">
+                      Informe elaborado el
+                      {{ reformatearDate(muni.elaborado) }}
+                    </h4>
+                  </div>
+                </div>
+                <br />
+                <br />
+                <h3 class="card-title text-center">Predicción</h3>
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="row">
+                      <div
+                        class="col-md-11 mx-auto"
+                        *ngFor="let muni of municipioData2"
+                      >
+                        <div class="card mb-3">
+                          <div class="card-body d-flex">
+                            <div
+                              class="col-sm borderDivs text-center"
+                              *ngFor="let dia of muni.prediccion.dia"
+                            >
+                              <p class="card-title text-center">
+                                {{ reformatearSecondDate(dia.fecha) }}
+                              </p>
+                              <p class="card-title text-center">
+                                Estado del cielo
+                              </p>
+                              <div style="height: 750px;">
+                                <div *ngFor="let stateCielo of dia.estadoCielo">
+                                  <div class="row">
+                                    <div class="col">
+                                      <p class="card-title stateCieloText">
+                                        {{ stateCielo.periodo }}:00 Hrs.
+                                      </p>
+                                    </div>
+                                    <div class="col">
+                                      <p class="card-text stateCieloText">
+                                        {{ stateCielo.descripcion }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">
+                                Humedad Relativa
+                              </p>
+                              <div style="height: 910px;">
+                                <div
+                                  class="d-flex justify-content-around"
+                                  *ngFor="
+                                    let humedadRelativa of dia.humedadRelativa
+                                  "
+                                >
+                                  <p class="card-text text-center">
+                                    {{ humedadRelativa.periodo }}:00
+                                  </p>
+                                  <p class="card-text text-center">
+                                    {{ humedadRelativa.value }}%
+                                  </p>
+                                </div>
+                              </div>
+                              <br />
+                              <hr />
+                              <div style="height: 980px;">
+                                <p class="card-title text-center">
+                                  Nieve
+                                </p>
+                                <div *ngFor="let snow of dia.nieve" class="d-flex justify-content-center">
+                                  <div class="d-flex justify-content-center" *ngIf="snow.value > 0;else notSnow">
+                                    <p class="card-text">{{snow.periodo}}</p>
+                                    <p class="card-text">{{snow.value}}</p>
+                                  </div>
+                                  <ng-template #notSnow class="d-flex justify-content-center">
+                                    <p class="card-text">{{snow.periodo}}</p>
+                                    <p class="card-text">Sin datos</p>
+                                  </ng-template>
+                                </div>
+                              </div>
+                              <br />
+                              <hr />
+                              <div>
+                                <div class="d-flex">
+                                  <p class="card-title text-left">
+                                    Orto
+                                  </p>
+                                  <p class="card-text text-center">
+                                    {{dia.orto}}AM
+                                  </p>
+                                </div>
+                                <div class="d-flex">
+                                  <p class="card-title text-left">
+                                    Ocaso
+                                  </p>
+                                  <p class="card-text text-center">
+                                    {{dia.ocaso}}PM
+                                  </p>
+                                </div>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">Precipitación </p>
+                              <div *ngFor="let preci of dia.precipitacion">
+                                <div class="d-flex">
+                                  <p class="card-text">
+                                    {{preci.periodo}}:00
+                                  </p>
+                                  <p class="card-text">
+                                    {{preci.value}} %
+                                  </p>
+                                </div>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">Probabilidad Nieve </p>
+                              <div class="d-flex" *ngFor="let probNieve of dia.probNieve">
+                                <p class="card-text">
+                                  {{reformatearCadenaProbNieve(probNieve.periodo)}} Hrs
+                                </p>
+                                <p class="card-text">
+                                  {{probNieve.value}} %
+                                </p>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">Probabilidad lluvia </p>
+                              <div class="d-flex" *ngFor="let probPrecipitacion of dia.probPrecipitacion">
+                                <p class="card-text">
+                                  {{reformatearCadenaProbNieve(probPrecipitacion.periodo)}} Hrs
+                                </p>
+                                <p class="card-text">
+                                  {{probPrecipitacion.value}} %
+                                </p>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">Probabilidad tormenta </p>
+                              <div class="d-flex" *ngFor="let probTormenta of dia.probTormenta">
+                                <p class="card-text">
+                                  {{reformatearCadenaProbNieve(probTormenta.periodo)}} Hrs
+                                </p>
+                                <p class="card-text">
+                                  {{probTormenta.value}}%
+                                </p>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">Sensación Térmica </p>
+                              <div class="d-flex" *ngFor="let sensTermica of dia.sensTermica">
+                                <p class="card-text">
+                                  {{sensTermica.periodo}}:00
+                                </p>
+                                <p class="card-text">
+                                  {{sensTermica.value}}º
+                                </p>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">Temperatura </p>
+                              <div class="d-flex" *ngFor="let temperatura of dia.temperatura">
+                                <p class="card-text">
+                                  {{temperatura.periodo}}:00
+                                </p>
+                                <p class="card-text">
+                                  {{temperatura.value}}%
+                                </p>
+                              </div>
+                              <br />
+                              <hr />
+                              <p class="card-title text-center">Viento y máx racha </p>
+                              <div class="d-flex">
+                                <p class="card-text">
+                                  Tiempo
+                                </p>
+                                <p class="card-text">
+                                  Valor
+                                </p>
+                                <p class="card-text">
+                                  Dirección
+                                </p>
+                              </div>
+                              <div class="d-flex" *ngFor="let vientoAndRachaMax of dia.vientoAndRachaMax">
+                                <p class="card-text">
+                                  {{vientoAndRachaMax.periodo}}:00
+                                </p>
+                                <p class="card-text">
+                                  {{vientoAndRachaMax.value}}m/h
+                                </p>
+                                <p class="card-text">
+                                  {{vientoAndRachaMax.direccion}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<!--
+                <div class="row card" *ngFor="let dia of muni.prediccion.dia">
+                  <div class="card-body col-6">
+                    <p class="card-title text-center">
+                      {{ reformatearSecondDate(dia.fecha) }}
+                    </p>
+                    <p class="card-title text-center">Estado cielo:</p>
+                    <div class="row" *ngFor="let stateCielo of dia.estadoCielo">
+                      <div class="col-sm">
+                        <div class="row">
+                          <div class="col">
+                            <p class="card-title text-center">
+                              {{ stateCielo.periodo }}:00 Hrs.
+                            </p>
+                          </div>
+                          <div class="col">
+                            <p class="card-text text-center">
+                              {{ stateCielo.descripcion }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <hr />
+                    <p class="card-title text-center">Humedad Relativa:</p>
+                    <div
+                      class="d-flex justify-content-around"
+                      *ngFor="let humedadRelativa of dia.humedadRelativa"
+                    >
+                      <p class="card-text text-center">
+                        {{ humedadRelativa.periodo }}:00
+                      </p>
+                      <p class="card-text text-center">
+                        {{ humedadRelativa.value }}%
+                      </p>
+                    </div>
+                    <br />
+                    <hr />
+                    <div *ngFor="let nieve of dia.nieve">
+                      <div *ngIf="nieve.value !== 0">
+                        <p class="card-title text-center">Nieve:</p>
+                        <div class="row">
+                          <p class="card-text text-center">
+                            {{ nieve.periodo }}:00
+                          </p>
+                          <p class="card-text text-center">
+                            {{ nieve.value }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br /> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-8 mx-auto" *ngFor="let muni of municipioData2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text text-left txtTitle">Origen</p>
+                <p class="card-text txtSubtitle">
+                  {{ muni.origen.productor }}
+                </p>
+                <p class="card-text txtTitle">Idioma</p>
+                <ng-container
+                  *ngIf="muni.origen.language === 'es'; else worldTemplate"
+                >
+                  <img class="languageImg" src="./assets/img/España.png" />
+                  {{ muni.origen.language }}
+                </ng-container>
+                <ng-template #worldTemplate>
+                  <img class="languageImg" src="./assets/img/world.png" />
+                  {{ muni.origen.language }}
+                </ng-template>
+
+                <p class="card-text txtTitle">Nota legal</p>
+                <p class="card-text txtSubtitle">
+                  {{ muni.origen.copyright }}
+                </p>
+                <p class="card-text txtTitle">Productor</p>
+                <p class="card-text txtSubtitle">
+                  {{ muni.origen.productor }}
+                </p>
+                <p class="card-text txtTitle">Web</p>
+                <p class="card-text txtSubtitle">
+                  <a href="{{ muni.origen.enlace }}">{{
+                    muni.origen.enlace
+                  }}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </ng-container>
       <ng-container *ngIf="SectionOPC6 && !ResponseAPI6">
         <div class="search-box">
@@ -393,39 +1054,6 @@
             </button>
           </div>
         </div>
-        <!-- <ng-container *ngIf="SectionOPC6 && !ResponseAPI6">
-          <div class="search-box">
-            <div>
-              <label for="playaName">Nombre Playa: </label>
-              <select
-                id="beachName"
-                class="form-control"
-                [(ngModel)]="selectedPlaya"
-              >
-              </select>
-            </div>
-            <div>
-              <label for="provinceName">Provincia: </label>
-              <select
-                id="provinciaName"
-                class="form-control"
-                [(ngModel)]="selectedProvincia"
-                disabled
-              >
-              </select>
-            </div>
-            <div>
-              <label for="municipioName">Municipio: </label>
-              <select
-                id="provinciaName"
-                class="form-control"
-                [(ngModel)]="selectedMunicipio"
-                disabled
-              >
-              </select>
-            </div>
-          </div>
-        </ng-container> -->
       </ng-container>
       <ng-container *ngIf="SectionOPC6 && ResponseAPI6">
         <div *ngIf="beachForecast" class="container mt-4">
@@ -435,21 +1063,37 @@
             </div>
             <div class="card-body">
               <p><strong>Localidad:</strong> {{ beachForecast.localidad }}</p>
-              <p><strong>Elaborado:</strong> {{ beachForecast.elaborado | date:'medium' }}</p>
+              <p>
+                <strong>Elaborado:</strong>
+                {{ beachForecast.elaborado | date : "medium" }}
+              </p>
             </div>
           </div>
           <div class="card mt-4">
             <div class="card-header">
               <h3>Pronóstico</h3>
             </div>
-            <div *ngFor="let dia of beachForecast.prediccion.dia; let i = index" class="card-body">
+            <div
+              *ngFor="let dia of beachForecast.prediccion.dia; let i = index"
+              class="card-body"
+            >
               <h4>{{ formatDate(dia.fecha, i) }}</h4>
-              <p><strong>Estado del cielo:</strong> {{ dia.estadoCielo.descripcion1 }}</p>
+              <p>
+                <strong>Estado del cielo:</strong>
+                {{ dia.estadoCielo.descripcion1 }}
+              </p>
               <p><strong>Viento:</strong> {{ dia.viento.descripcion1 }}</p>
               <p><strong>Oleaje:</strong> {{ dia.oleaje.descripcion1 }}</p>
-              <p><strong>Temperatura máxima:</strong> {{ dia.tMaxima.valor1 }} °C</p>
-              <p><strong>Sensación térmica:</strong> {{ dia.sTermica.descripcion1 }}</p>
-              <p><strong>Temperatura del agua:</strong> {{ dia.tAgua.valor1 }} °C</p>
+              <p>
+                <strong>Temperatura máxima:</strong> {{ dia.tMaxima.valor1 }} °C
+              </p>
+              <p>
+                <strong>Sensación térmica:</strong>
+                {{ dia.sTermica.descripcion1 }}
+              </p>
+              <p>
+                <strong>Temperatura del agua:</strong> {{ dia.tAgua.valor1 }} °C
+              </p>
               <p><strong>Índice UV máximo:</strong> {{ dia.uvMax.valor1 }}</p>
             </div>
           </div>
@@ -465,13 +1109,20 @@
                 class="form-control"
                 [(ngModel)]="selectedVioleta"
               >
-                <option *ngFor="let indice of option7List" [value]="indice.codigo">
+                <option
+                  *ngFor="let indice of option7List"
+                  [value]="indice.codigo"
+                >
                   {{ indice.dia }}
                 </option>
               </select>
             </div>
             <div class="btnDiv">
-              <button type="button" class="btn-search" (click)="callToApiOPC7()">
+              <button
+                type="button"
+                class="btn-search"
+                (click)="callToApiOPC7()"
+              >
                 Continuar
               </button>
             </div>
@@ -487,7 +1138,9 @@
             </thead>
             <tbody>
               <tr *ngFor="let beach of uvData">
-                <ng-container *ngIf="beach.Ciudad !== null || beach['Radiación UV'] != null"></ng-container>
+                <ng-container
+                  *ngIf="beach.Ciudad !== null || beach['Radiación UV'] != null"
+                ></ng-container>
                 <td>{{ beach.Ciudad }}</td>
                 <td>{{ beach["Radiación UV"] }}</td>
               </tr>
@@ -507,7 +1160,6 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Llamar a la función cuando el DOM esté listo
     callToApiOPC1();
   });
 </script>
