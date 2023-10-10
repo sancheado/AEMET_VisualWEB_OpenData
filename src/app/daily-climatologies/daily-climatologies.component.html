@@ -1,0 +1,90 @@
+<div class="daily-climatologies">
+  <section class="header-section">
+    <div class="container">
+      <div class="row">
+        <div class="body-header">
+          <a href="http://www.aemet.es" target="new"
+            ><img src="./assets/img/logo_AEMET_web.gif"
+          /></a>
+          <img src="./assets/img/logo_opendata_p.gif" />
+          <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
+          <h2 class="text-left">
+            Sistema para la visualización y reutilización de la información de
+            AEMET
+          </h2>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <ng-container *ngIf="sectionOPC11 && !sectionOPCResponse11">
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search-box">
+          <p class="date_daily-climatologies">Fecha Inicial</p>
+          <div class="row">
+            <input
+              class="selectorDate"
+              type="datetime-local"
+              [(ngModel)]="selectedDate"
+              id="dateInput"
+            />
+          </div>
+          <p class="date_daily-climatologies">Fecha Final</p>
+          <div class="row">
+            <input
+              class="selectorDate"
+              type="datetime-local"
+              [(ngModel)]="selectedDate2"
+              id="dateInput2"
+            />
+          </div>
+          <p class="date_daily-climatologies">Provincia</p>
+          <div class="row">
+            <select
+              id="provinces"
+              class="form-control"
+              [(ngModel)]="selectedProvince"
+              (change)="onProvinceChange()"
+            >
+              <option
+                *ngFor="let province of provincesList"
+                [value]="province.codigo"
+              >
+                {{ province.provincia }}
+              </option>
+            </select>
+          </div>
+          <p class="date_daily-climatologies">Municipio</p>
+          <div class="row">
+            <select
+              id="munis"
+              class="form-control"
+              [(ngModel)]="selectedMuni"
+              *ngIf="excelMunicipiosData && excelMunicipiosData.length > 0"
+            >
+              <option
+                *ngFor="let municipio of filteredData"
+                [value]="municipio.CODMUN"
+              >
+                {{ municipio.NOMBRE }}
+              </option>
+            </select>
+          </div>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC11()">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="row">
+      <!-- Agrega el botón de vuelta atrás -->
+      <button class="btn btnBack mx-auto" (click)="goBack()">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+</div>

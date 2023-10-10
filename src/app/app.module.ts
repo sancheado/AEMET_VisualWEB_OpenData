@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { SpecificPredictionsComponent } from './specific-predictions/specific-predictions.component';
 import { FormsModule } from '@angular/forms';
 import { ObservationConventionalComponent } from './observation-conventional/observation-conventional.component';
+import { DailyClimatologiesComponent } from './daily-climatologies/daily-climatologies.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SpecificPredictionsComponent,
-    ObservationConventionalComponent
+    ObservationConventionalComponent,
+    DailyClimatologiesComponent
   ],
   imports: [
     BrowserModule,

@@ -578,6 +578,10 @@ export class AppComponent {
       selectedOptionValue
     )){
       this.router.navigateByUrl('/observation-conventional');
+    }else if(['opcion11', 'opcion12', 'opcion13','opcion14', 'opcion15', 'opcion16', 'opcion17'].includes(
+      selectedOptionValue
+    )){
+      this.router.navigateByUrl('/daily-climatologies');
     }else {
       console.log('Opción inválida');
     }
