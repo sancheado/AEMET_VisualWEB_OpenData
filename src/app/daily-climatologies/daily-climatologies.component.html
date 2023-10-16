@@ -41,7 +41,7 @@
             />
           </div>
           <p class="date_daily-climatologies">Provincia</p>
-          
+
           <div class="btnDiv">
             <button type="button" class="btn-search" (click)="callToApiOPC11()">
               Continuar
@@ -77,6 +77,78 @@
             <button type="button" class="btn-search" (click)="callToApiOPC12()">
               Continuar
             </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC13 && !sectionOPCResponse13">
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search-box">
+          <p class="date_daily-climatologies">
+            Listado de indicativos climatológicos:
+          </p>
+          <div class="row">
+            <select
+              id="tipoMensa"
+              class="form-control"
+              [(ngModel)]="selectedIndicator"
+            >
+              <option
+                *ngFor="let tipo of climaticValuesLoaded"
+                [value]="tipo.indicativo"
+              >
+                {{ tipo.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC13()">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC13 && sectionOPCResponse13">
+      <div class="search-box climatic-data2" *ngFor="let dato of selectedIndicatorResponseApi">
+        <h4>Datos de la ubicación: <br>{{ dato.nombre }}</h4>
+        <p>Provincia: {{ dato.provincia }}</p>
+        <p>Indicativo: {{ dato.indicativo }}</p>
+        <p>Latitud: {{ dato.latitud }} º</p>
+        <p>Altitud: {{ dato.altitud }} m</p>
+      </div>
+    </ng-container>
+    <!-- <ng-container *ngIf="sectionOPC14 && !sectionOPCResponse14">
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search-box">
+          <p class="date_daily-climatologies">Hemos tenido algún tipo de problema y no hemos recibido respuesta desde la API de AEMET. Vuelva a intentarlo pasado unos minutos. Gracias! </p>
+        </div>
+      </div>
+    </ng-container> -->
+    <ng-container *ngIf="sectionOPC14 && sectionOPCResponse14">
+      <div class="row">
+        <button class="btn btnBack mx-auto" (click)="goBack()">
+          Volver atrás
+        </button>
+      </div>
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search">
+          <div class="row">
+            <div class="col-sm-4" *ngFor="let value of climaticValues">
+              <div class="search-box climatic-data">
+                <p>Provincia: {{ value.provincia }}</p>
+                <p>Ubicación: {{ value.nombre }}</p>
+                <p>Indicativo: {{ value.indicativo }}</p>
+                <p>Latitud: {{ value.latitud }} º</p>
+                <p>Altitud: {{ value.altitud }} m</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
