@@ -48,6 +48,8 @@ export class DailyClimatologiesComponent {
   sectionOPC16: boolean = false;
   sectionOPCResponse16: boolean = false;
   sectionOPC17: boolean = false;
+  sectionOPCResponse17: boolean = false;
+
   selectedTitle: string = '';
   selectedSubtitle: string = '';
   selectedContent: string = '';
@@ -67,6 +69,12 @@ export class DailyClimatologiesComponent {
 
   selectedIndicator: string = '1387';
   selectedIndicatorResponseApi: climaticsValues[] = [];
+
+  yearInput: string = '2022';
+  yearInput2: string = '2023';
+
+  AnnualMonthlyClimateData: any[] = [];
+  matchingName: string = '';
 
   constructor(
     private appComponente: AppComponent,
@@ -111,12 +119,28 @@ export class DailyClimatologiesComponent {
       this.callToApiOPC14();
     }
     else if(this.contentToChange === 'opcion15'){
-
+      this.loadClimaticData();
+      this.sectionOPC15 = true;
+      this.selectedTitle = '  Climatologías mensuales anuales.  ';
+      this.selectedSubtitle = 'Valores medios mensuales y anuales de los datos climatológicos para la estación y el periodo de años pasados por parámetro. Periodicidad de actualización: 1 vez al día. ';
+      this.selectedContent =
+        'Valores medios mensuales y anuales de los datos climatológicos para la estación y el periodo de años pasados por parámetro. Periodicidad de actualización: 1 vez al día. ';
     }
     else if(this.contentToChange === 'opcion16'){
+      this.loadClimaticData();
+      this.sectionOPC16 = true;
+      this.selectedTitle = '  Climatologías normales (periodo 1981-2010).  ';
+      this.selectedSubtitle = 'Valores climatológicos normales (periodo 1981-2010) para la estación pasada por parámetro. Periodicidad: 1 vez al día. ';
+      this.selectedContent =
+        'Valores climatológicos normales (periodo 1981-2010) para la estación pasada por parámetro. Periodicidad: 1 vez al día. ';
 
     }
     else if(this.contentToChange === 'opcion17'){
+      this.sectionOPC17 = true;
+      this.selectedTitle = '  Valores extremos.  ';
+      this.selectedSubtitle = 'Valores extremos para la estación y la variable (precipitación, temperatura y viento) pasadas por parámetro. Periodicidad: 1 vez al día. ';
+      this.selectedContent =
+        'Valores extremos para la estación y la variable (precipitación, temperatura y viento) pasadas por parámetro. Periodicidad: 1 vez al día. ';
 
     }
   }
@@ -256,6 +280,100 @@ export class DailyClimatologiesComponent {
     );
   }
 
+  callToApiOPC15(): void{
+    console.log(this.yearInput);
+    console.log(this.yearInput2);
+    console.log(this.selectedIndicator);
+
+    const apiKey = environment.apiKey;
+
+    const apiUrl = `https://opendata.aemet.es/opendata/api/valores/climatologicos/mensualesanuales/datos/anioini/${this.yearInput}/aniofin/${this.yearInput2}/estacion/${this.selectedIndicator}?api_key=${apiKey}`;
+    
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (response && response.datos) {
+          const dataUrl = response.datos;
+
+          this.http.get<climaticsValues[]>(dataUrl).subscribe(
+            (data: any) => {
+              if (data.length > 0) {
+                console.log(data);                
+                this.sectionOPCResponse15 = true;
+                this.AnnualMonthlyClimateData = data;
+                console.log("Datos en la variable: ", this.AnnualMonthlyClimateData);                
+
+                for (let i = 0; i < this.climaticValuesLoaded.length; i++) {
+                  if (this.climaticValuesLoaded[i].indicativo === this.selectedIndicator) {
+                    this.matchingName = this.climaticValuesLoaded[i].nombre;
+                    break;
+                  }
+                }
+              } else {
+                console.error('El arreglo de datos está vacío.');
+              }
+            },
+            (error) => {
+              console.error('Error al obtener los datos de la API:', error);
+            }
+          );
+        } else {
+          console.error('La respuesta de la API no contiene el campo "datos".');
+        }
+      },
+      (error) => {
+        console.error('Error al obtener la URL de los datos de la API:', error);
+      }
+    );
+  }
+
+  callToApiOPC16(): void{
+    console.log(this.selectedIndicator);
+
+    const apiKey = environment.apiKey;
+
+    const apiUrl = `https://opendata.aemet.es/opendata/api/valores/climatologicos/normales/estacion/${this.selectedIndicator}?api_key=${apiKey}`;
+    
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (response && response.datos) {
+          const dataUrl = response.datos;
+
+          this.http.get<climaticsValues[]>(dataUrl).subscribe(
+            (data: any) => {
+              if (data.length > 0) {
+                console.log(data);                
+                this.sectionOPCResponse16 = true;
+                this.AnnualMonthlyClimateData = data;
+                console.log("Datos en la variable: ", this.AnnualMonthlyClimateData);                
+
+                for (let i = 0; i < this.climaticValuesLoaded.length; i++) {
+                  if (this.climaticValuesLoaded[i].indicativo === this.selectedIndicator) {
+                    this.matchingName = this.climaticValuesLoaded[i].nombre;
+                    break;
+                  }
+                }
+              } else {
+                console.error('El arreglo de datos está vacío.');
+              }
+            },
+            (error) => {
+              console.error('Error al obtener los datos de la API:', error);
+            }
+          );
+        } else {
+          console.error('La respuesta de la API no contiene el campo "datos".');
+        }
+      },
+      (error) => {
+        console.error('Error al obtener la URL de los datos de la API:', error);
+      }
+    );
+  }
+
+
+
   formatDate(date: Date): string {
     console.log(date);
     const year = date.getFullYear();
@@ -275,7 +393,7 @@ export class DailyClimatologiesComponent {
       (data) => {
         this.climaticValuesLoaded = data;
         this.climaticValuesLoaded.sort((a, b) => (a.nombre > b.nombre) ? 1 : -1);
-        console.log('Datos cargados:', this.climaticValuesLoaded);
+        // console.log('Datos cargados:', this.climaticValuesLoaded);
       },
       (error) => {
         console.error('Error al cargar los datos:', error);

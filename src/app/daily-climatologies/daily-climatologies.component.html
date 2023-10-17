@@ -112,8 +112,11 @@
       </div>
     </ng-container>
     <ng-container *ngIf="sectionOPC13 && sectionOPCResponse13">
-      <div class="search-box climatic-data2" *ngFor="let dato of selectedIndicatorResponseApi">
-        <h4>Datos de la ubicación: <br>{{ dato.nombre }}</h4>
+      <div
+        class="search-box climatic-data2"
+        *ngFor="let dato of selectedIndicatorResponseApi"
+      >
+        <h4>Datos de la ubicación: <br />{{ dato.nombre }}</h4>
         <p>Provincia: {{ dato.provincia }}</p>
         <p>Indicativo: {{ dato.indicativo }}</p>
         <p>Latitud: {{ dato.latitud }} º</p>
@@ -153,6 +156,661 @@
         </div>
       </div>
     </ng-container>
+    <ng-container *ngIf="sectionOPC15 && !sectionOPCResponse15">
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search-box">
+          <p>Año Inicial:</p>
+          <input
+            class="form-control rounded-pill yearInput"
+            type="text"
+            id="yearInput"
+            [(ngModel)]="yearInput"
+          />
+          <p>Año Final:</p>
+          <input
+            class="form-control rounded-pill yearInput"
+            type="text"
+            id="yearInput2"
+            [(ngModel)]="yearInput2"
+          />
+          <p>Indicativo climatológico de la EMA:</p>
+          <select
+            id="tipoMensa"
+            class="form-control rounded-pill yearInput"
+            [(ngModel)]="selectedIndicator"
+          >
+            <option
+              *ngFor="let tipo of climaticValuesLoaded"
+              [value]="tipo.indicativo"
+            >
+              {{ tipo.nombre }}
+            </option>
+          </select>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC15()">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC15 && sectionOPCResponse15">
+      <div class="row">
+        <h1 class="text-center">{{ selectedTitle }}</h1>
+        <h3 style="padding: 5px; margin: 5px">{{ selectedSubtitle }}</h3>
+        <h4 class="text-center">
+          Mostrando los datos de: <br />
+          <strong>{{ matchingName }}</strong>
+        </h4>
+        <div class="row">
+          <div
+            class="col-sm-3"
+            *ngFor="let dataValue of AnnualMonthlyClimateData"
+          >
+            <div class="search-box climatic-data3">
+              <h3>
+                Fecha: <strong>{{ dataValue.fecha }}</strong>
+              </h3>
+              <p>Indicativo: {{ dataValue.indicativo }}</p>
+              <p>p_max: {{ dataValue.p_max }}</p>
+              <p>n_cub: {{ dataValue.n_cub }}</p>
+              <p>glo: {{ dataValue.glo }}</p>
+              <p>hr: {{ dataValue.hr }}</p>
+              <p>n_gra: {{ dataValue.n_gra }}</p>
+              <p>n_fog: {{ dataValue.n_fog }}</p>
+              <p>inso: {{ dataValue.inso }}</p>
+              <p>q_max: {{ dataValue.q_max }}</p>
+              <p>nw_55: {{ dataValue.nw_55 }}</p>
+              <p>q_mar: {{ dataValue.q_mar }}</p>
+              <p>tm_min: {{ dataValue.tm_min }}</p>
+              <p>ta_max: {{ dataValue.ta_max }}</p>
+              <p>ts_min: {{ dataValue.ts_min }}</p>
+              <p>nt_30: {{ dataValue.nt_30 }}</p>
+              <p>nv_0050: {{ dataValue.nv_0050 }}</p>
+              <p>n_des: {{ dataValue.n_des }}</p>
+              <p>w_racha: {{ dataValue.w_racha }}</p>
+              <p>np_100: {{ dataValue.np_100 }}</p>
+              <p>n_nub: {{ dataValue.n_nub }}</p>
+              <p>p_sol: {{ dataValue.p_sol }}</p>
+              <p>nw_91: {{ dataValue.nw_91 }}</p>
+              <p>np_001: {{ dataValue.np_001 }}</p>
+              <p>ta_min: {{ dataValue.ta_min }}</p>
+              <p>w_rec: {{ dataValue.w_rec }}</p>
+              <p>e: {{ dataValue.e }}</p>
+              <p>np_300: {{ dataValue.np_300 }}</p>
+              <p>nv_1000: {{ dataValue.nv_1000 }}</p>
+              <p>p_mes: {{ dataValue.p_mes }}</p>
+              <p>n_llu: {{ dataValue.n_llu }}</p>
+              <p>n_tor: {{ dataValue.n_tor }}</p>
+              <p>w_med: {{ dataValue.w_med }}</p>
+              <p>nt_00: {{ dataValue.nt_00 }}</p>
+              <p>ti_max: {{ dataValue.ti_max }}</p>
+              <p>n_nie: {{ dataValue.n_nie }}</p>
+              <p>tm_mes: {{ dataValue.tm_mes }}</p>
+              <p>tm_max: {{ dataValue.tm_max }}</p>
+              <p>nv_0100: {{ dataValue.nv_0100 }}</p>
+              <p>q_min: {{ dataValue.q_min }}</p>
+              <p>np_010: {{ dataValue.np_010 }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC16 && !sectionOPCResponse16">
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search-box">
+          <p>Indicativo climatológico de la EMA:</p>
+          <select
+            id="tipoMensa"
+            class="form-control rounded-pill yearInput"
+            [(ngModel)]="selectedIndicator"
+          >
+            <option
+              *ngFor="let tipo of climaticValuesLoaded"
+              [value]="tipo.indicativo"
+            >
+              {{ tipo.nombre }}
+            </option>
+          </select>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC16()">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC16 && sectionOPCResponse16">
+      <div class="row">
+        <h1 class="text-center">{{ selectedTitle }}</h1>
+        <h3 style="padding: 5px; margin: 5px">{{ selectedSubtitle }}</h3>
+        <h4 class="text-center">
+          Mostrando datos climatológicos de la estación: <br />
+          <strong>{{ matchingName }}</strong>
+        </h4>
+        <div class="row">
+          <!-- Agrega el botón de vuelta atrás -->
+          <button class="btn btnBack mx-auto" (click)="goBack()">
+            Volver atrás
+          </button>
+        </div>
+        <div class="row">
+          <div
+            class="col-sm-4"
+            *ngFor="let dataValue of AnnualMonthlyClimateData"
+          >
+            <div class="search-box climatic-data3">
+              <p>Indicativo: {{ dataValue.indicativo }}</p>
+              <ng-container *ngIf="dataValue.w_racha_max !== '' && dataValue.w_racha_max !== null">
+                <p>w_racha_max: {{ dataValue.w_racha_max }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.np_010_n !== '' && dataValue.np_010_n !== null">
+                <p>np_010_n: {{ dataValue.np_010_n }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.np_010_s !== '' && dataValue.np_010_s !== null">
+                <p>np_010_s: {{ dataValue.np_010_s }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.q_max_s !== '' && dataValue.q_max_s !== null">
+                <p>q_max_s: {{ dataValue.q_max_s }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.n_tor_n !== '' && dataValue.n_tor_n !== null">
+                <p>n_tor_n: {{ dataValue.n_tor_n }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.n_tor_s !== '' && dataValue.n_tor_s !== null">
+                <p>n_tor_s: {{ dataValue.n_tor_s }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.q_max_n !== '' && dataValue.q_max_n !== null">
+                <p>q_max_n: {{ dataValue.q_max_n }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.tm_min_q4 !== '' && dataValue.tm_min_q4 !== null">
+                <p>tm_min_q4: {{ dataValue.tm_min_q4 }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.tm_min_q1 !== '' && dataValue.tm_min_q1 !== null">
+                <p>tm_min_q1: {{ dataValue.tm_min_q1 }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.tm_min_q3 !== '' && dataValue.tm_min_q3 !== null">
+                <p>tm_min_q3: {{ dataValue.tm_min_q3 }}</p>
+              </ng-container>
+              <ng-container *ngIf="dataValue.tm_min_q2 !== '' && dataValue.tm_min_q2 !== null">
+                <p>tm_min_q2: {{ dataValue.tm_min_q2 }}</p>
+              </ng-container>
+              <p>q_mar_n: {{ dataValue.q_mar_n }}</p>
+              <p>n_des_min: {{ dataValue.n_des_min }}</p>
+              <p>q_mar_s: {{ dataValue.q_mar_s }}</p>
+              <p>q_med_n: {{ dataValue.q_med_n }}</p>
+              <p>ts_20_q1: {{ dataValue.ts_20_q1 }}</p>
+              <p>ts_20_q2: {{ dataValue.ts_20_q2 }}</p>
+              <p>e_cv: {{ dataValue.e_cv }}</p>
+              <p>ts_20_q4: {{ dataValue.ts_20_q4 }}</p>
+              <p>e_min: {{ dataValue.e_min }}</p>
+              <p>np_300_q4: {{ dataValue.np_300_q4 }}</p>
+              <p>np_300_q1: {{ dataValue.np_300_q1 }}</p>
+              <p>np_300_q3: {{ dataValue.np_300_q3 }}</p>
+              <p>hr_max: {{ dataValue.hr_max }}</p>
+              <p>np_300_cv: {{ dataValue.np_300_cv }}</p>
+              <p>n_nub_max: {{ dataValue.n_nub_max }}</p>
+              <p>tm_min_cv: {{ dataValue.tm_min_cv }}</p>
+              <p>n_des_mn: {{ dataValue.n_des_mn }}</p>
+              <p>n_des_md: {{ dataValue.n_des_md }}</p>
+              <p>ts_20_s: {{ dataValue.ts_20_s }}</p>
+              <p>q_med_mn: {{ dataValue.q_med_mn }}</p>
+              <p>evap_cv: {{ dataValue.evap_cv }}</p>
+              <p>q_med_md: {{ dataValue.q_med_md }}</p>
+              <p>nt_30_cv: {{ dataValue.nt_30_cv }}</p>
+              <p>mes: {{ dataValue.mes }}</p>
+              <p>ts_20_cv: {{ dataValue.ts_20_cv }}</p>
+              <p>inso_max: {{ dataValue.inso_max }}</p>
+              <p>ts_20_max: {{ dataValue.ts_20_max }}</p>
+              <p>n_llu_md: {{ dataValue.n_llu_md }}</p>
+              <p>nv_1000_s: {{ dataValue.nv_1000_s }}</p>
+              <p>ta_min_mn: {{ dataValue.ta_min_mn }}</p>
+              <p>tm_mes_max: {{ dataValue.tm_mes_max }}</p>
+              <p>ta_max_mn: {{ dataValue.ta_max_mn }}</p>
+              <p>nv_1000_n: {{ dataValue.nv_1000_n }}</p>
+              <p>ta_max_md: {{ dataValue.ta_max_md }}</p>
+              <p>nw_91_min: {{ dataValue.nw_91_min }}</p>
+              <p>ta_max_n: {{ dataValue.ta_max_n }}</p>
+              <p>ta_max_s: {{ dataValue.ta_max_s }}</p>
+              <p>ts_10_md: {{ dataValue.ts_10_md }}</p>
+              <p>nw_55_mn: {{ dataValue.nw_55_mn }}</p>
+              <p>ta_min_s: {{ dataValue.ta_min_s }}</p>
+              <p>nw_55_md: {{ dataValue.nw_55_md }}</p>
+              <p>np_300_mn: {{ dataValue.np_300_mn }}</p>
+              <p>evap_q4: {{ dataValue.evap_q4 }}</p>
+              <p>evap_q1: {{ dataValue.evap_q1 }}</p>
+              <p>np_300_md: {{ dataValue.np_300_md }}</p>
+              <p>evap_q3: {{ dataValue.evap_q3 }}</p>
+              <p>evap_q2: {{ dataValue.evap_q2 }}</p>
+              <p>p_mes_min: {{ dataValue.p_mes_min }}</p>
+              <p>ts_min_min: {{ dataValue.ts_min_min }}</p>
+              <p>n_des_s: {{ dataValue.n_des_s }}</p>
+              <p>nv_0100_mn: {{ dataValue.nv_0100_mn }}</p>
+              <p>p_mes_md: {{ dataValue.p_mes_md }}</p>
+              <p>n_tor_cv: {{ dataValue.n_tor_cv }}</p>
+              <p>nv_0100_md: {{ dataValue.nv_0100_md }}</p>
+              <p>q_min_max: {{ dataValue.q_min_max }}</p>
+              <p>n_des_n: {{ dataValue.n_des_n }}</p>
+              <p>p_sol_s: {{ dataValue.p_sol_s }}</p>
+              <p>ts_20_n: {{ dataValue.ts_20_n }}</p>
+              <p>ts_10_cv: {{ dataValue.ts_10_cv }}</p>
+              <p>nw_91_s: {{ dataValue.nw_91_s }}</p>
+              <p>nw_91_n: {{ dataValue.nw_91_n }}</p>
+              <p>nt_00_min: {{ dataValue.nt_00_min }}</p>
+              <p>p_sol_n: {{ dataValue.p_sol_n }}</p>
+              <p>n_nie_mn: {{ dataValue.n_nie_mn }}</p>
+              <p>n_nub_n: {{ dataValue.n_nub_n }}</p>
+              <p>n_nie_md: {{ dataValue.n_nie_md }}</p>
+              <p>tm_mes_md: {{ dataValue.tm_mes_md }}</p>
+              <p>n_nub_s: {{ dataValue.n_nub_s }}</p>
+              <p>w_racha_min: {{ dataValue.w_racha_min }}</p>
+              <p>np_300_max: {{ dataValue.np_300_max }}</p>
+              <p>nv_0050_md: {{ dataValue.nv_0050_md }}</p>
+              <p>ta_min_min: {{ dataValue.ta_min_min }}</p>
+              <p>glo_mn: {{ dataValue.glo_mn }}</p>
+              <p>inso_s: {{ dataValue.inso_s }}</p>
+              <p>glo_md: {{ dataValue.glo_md }}</p>
+              <p>n_nie_q1: {{ dataValue.n_nie_q1 }}</p>
+              <p>w_med_q4: {{ dataValue.w_med_q4 }}</p>
+              <p>n_tor_max: {{ dataValue.n_tor_max }}</p>
+              <p>w_med_q2: {{ dataValue.w_med_q2 }}</p>
+              <p>w_med_q3: {{ dataValue.w_med_q3 }}</p>
+              <p>n_gra_md: {{ dataValue.n_gra_md }}</p>
+              <p>inso_q4: {{ dataValue.inso_q4 }}</p>
+              <p>q_max_min: {{ dataValue.q_max_min }}</p>
+              <p>ts_10_max: {{ dataValue.ts_10_max }}</p>
+              <p>nt_30_min: {{ dataValue.nt_30_min }}</p>
+              <p>n_nub_cv: {{ dataValue.n_nub_cv }}</p>
+              <p>p_mes_n: {{ dataValue.p_mes_n }}</p>
+              <p>p_mes_q1: {{ dataValue.p_mes_q1 }}</p>
+              <p>p_mes_q2: {{ dataValue.p_mes_q2 }}</p>
+              <p>p_mes_q3: {{ dataValue.p_mes_q3 }}</p>
+              <p>p_mes_q4: {{ dataValue.p_mes_q4 }}</p>
+              <p>hr_cv: {{ dataValue.hr_cv }}</p>
+              <p>n_tor_md: {{ dataValue.n_tor_md }}</p>
+              <p>p_mes_s: {{ dataValue.p_mes_s }}</p>
+              <p>nw_91_cv: {{ dataValue.nw_91_cv }}</p>
+              <p>n_tor_mn: {{ dataValue.n_tor_mn }}</p>
+              <p>nv_1000_max: {{ dataValue.nv_1000_max }}</p>
+              <p>n_gra_cv: {{ dataValue.n_gra_cv }}</p>
+              <p>w_racha_n: {{ dataValue.w_racha_n }}</p>
+              <p>w_med_min: {{ dataValue.w_med_min }}</p>
+              <p>w_racha_s: {{ dataValue.w_racha_s }}</p>
+              <p>np_100_max: {{ dataValue.np_100_max }}</p>
+              <p>e_s: {{ dataValue.e_s }}</p>
+              <p>w_med_s: {{ dataValue.w_med_s }}</p>
+              <p>p_sol_md: {{ dataValue.p_sol_md }}</p>
+              <p>n_cub_q4: {{ dataValue.n_cub_q4 }}</p>
+              <p>n_cub_q3: {{ dataValue.n_cub_q3 }}</p>
+              <p>n_cub_q2: {{ dataValue.n_cub_q2 }}</p>
+              <p>n_cub_q1: {{ dataValue.n_cub_q1 }}</p>
+              <p>nw_55_max: {{ dataValue.nw_55_max }}</p>
+              <p>p_sol_mn: {{ dataValue.p_sol_mn }}</p>
+              <p>n_cub_s: {{ dataValue.n_cub_s }}</p>
+              <p>hr_mn: {{ dataValue.hr_mn }}</p>
+              <p>q_med_max: {{ dataValue.q_med_max }}</p>
+              <p>hr_md: {{ dataValue.hr_md }}</p>
+              <p>np_010_md: {{ dataValue.np_010_md }}</p>
+              <p>n_cub_n: {{ dataValue.n_cub_n }}</p>
+              <p>np_010_mn: {{ dataValue.np_010_mn }}</p>
+              <p>nw_91_q4: {{ dataValue.nw_91_q4 }}</p>
+              <p>p_max_n: {{ dataValue.p_max_n }}</p>
+              <p>nw_91_q2: {{ dataValue.nw_91_q2 }}</p>
+              <p>nw_91_q3: {{ dataValue.nw_91_q3 }}</p>
+              <p>nw_91_q1: {{ dataValue.nw_91_q1 }}</p>
+              <p>n_gra_q4: {{ dataValue.n_gra_q4 }}</p>
+              <p>n_gra_q1: {{ dataValue.n_gra_q1 }}</p>
+              <p>n_gra_q3: {{ dataValue.n_gra_q3 }}</p>
+              <p>nw_55_s: {{ dataValue.nw_55_s }}</p>
+              <p>nw_55_n: {{ dataValue.nw_55_n }}</p>
+              <p>w_med_mn: {{ dataValue.w_med_mn }}</p>
+              <p>n_nub_min: {{ dataValue.n_nub_min }}</p>
+              <p>p_max_s: {{ dataValue.p_max_s }}</p>
+              <p>ts_20_min: {{ dataValue.ts_20_min }}</p>
+              <p>inso_min: {{ dataValue.inso_min }}</p>
+              <p>n_gra_max: {{ dataValue.n_gra_max }}</p>
+              <p>p_sol_q1: {{ dataValue.p_sol_q1 }}</p>
+              <p>p_sol_q3: {{ dataValue.p_sol_q3 }}</p>
+              <p>p_sol_q2: {{ dataValue.p_sol_q2 }}</p>
+              <p>p_sol_q4: {{ dataValue.p_sol_q4 }}</p>
+              <p>n_fog_q1: {{ dataValue.n_fog_q1 }}</p>
+              <p>ta_min_md: {{ dataValue.ta_min_md }}</p>
+              <p>n_fog_q3: {{ dataValue.n_fog_q3 }}</p>
+              <p>n_fog_q2: {{ dataValue.n_fog_q2 }}</p>
+              <p>n_fog_q4: {{ dataValue.n_fog_q4 }}</p>
+              <p>w_med_cv: {{ dataValue.w_med_cv }}</p>
+              <p>p_max_max: {{ dataValue.p_max_max }}</p>
+              <p>e_n: {{ dataValue.e_n }}</p>
+              <p>q_min_md: {{ dataValue.q_min_md }}</p>
+              <p>p_mes_cv: {{ dataValue.p_mes_cv }}</p>
+              <p>nv_0100_max: {{ dataValue.nv_0100_max }}</p>
+              <p>np_300_q2: {{ dataValue.np_300_q2 }}</p>
+              <p>q_min_mn: {{ dataValue.q_min_mn }}</p>
+              <p>ti_max_min: {{ dataValue.ti_max_min }}</p>
+              <p>np_100_cv: {{ dataValue.np_100_cv }}</p>
+              <p>hr_q3: {{ dataValue.hr_q3 }}</p>
+              <p>hr_q2: {{ dataValue.hr_q2 }}</p>
+              <p>hr_q1: {{ dataValue.hr_q1 }}</p>
+              <p>nv_0050_s: {{ dataValue.nv_0050_s }}</p>
+              <p>evap_s: {{ dataValue.evap_s }}</p>
+              <p>w_med_q1: {{ dataValue.w_med_q1 }}</p>
+              <p>evap_n: {{ dataValue.evap_n }}</p>
+              <p>nv_0050_n: {{ dataValue.nv_0050_n }}</p>
+              <p>nv_0050_q2: {{ dataValue.nv_0050_q2 }}</p>
+              <p>nv_0050_q3: {{ dataValue.nv_0050_q3 }}</p>
+              <p>q_max_md: {{ dataValue.q_max_md }}</p>
+              <p>nv_0050_q1: {{ dataValue.nv_0050_q1 }}</p>
+              <p>nv_0050_q4: {{ dataValue.nv_0050_q4 }}</p>
+              <p>q_max_mn: {{ dataValue.q_max_mn }}</p>
+              <p>n_llu_min: {{ dataValue.n_llu_min }}</p>
+              <p>ts_min_max: {{ dataValue.ts_min_max }}</p>
+              <p>evap_max: {{ dataValue.evap_max }}</p>
+              <p>ta_min_q1: {{ dataValue.ta_min_q1 }}</p>
+              <p>ta_min_q3: {{ dataValue.ta_min_q3 }}</p>
+              <p>n_cub_cv: {{ dataValue.n_cub_cv }}</p>
+              <p>ta_min_q4: {{ dataValue.ta_min_q4 }}</p>
+              <p>tm_mes_n: {{ dataValue.tm_mes_n }}</p>
+              <p>tm_max_s: {{ dataValue.tm_max_s }}</p>
+              <p>nt_30_md: {{ dataValue.nt_30_md }}</p>
+              <p>tm_max_n: {{ dataValue.tm_max_n }}</p>
+              <p>tm_mes_s: {{ dataValue.tm_mes_s }}</p>
+              <p>nt_30_mn: {{ dataValue.nt_30_mn }}</p>
+              <p>ts_50_q4: {{ dataValue.ts_50_q4 }}</p>
+              <p>ts_50_q3: {{ dataValue.ts_50_q3 }}</p>
+              <p>ts_50_q2: {{ dataValue.ts_50_q2 }}</p>
+
+              <p>ts_50_q1: {{ dataValue.ts_50_q1 }}</p>
+              <p>q_mar_mn: {{ dataValue.q_mar_mn }}</p>
+              <p>np_100_q4: {{ dataValue.np_100_q4 }}</p>
+              <p>np_100_q3: {{ dataValue.np_100_q3 }}</p>
+              <p>np_100_q2: {{ dataValue.np_100_q2 }}</p>
+              <p>np_100_q1: {{ dataValue.np_100_q1 }}</p>
+              <p>n_des_cv: {{ dataValue.n_des_cv }}</p>
+              <p>q_mar_md: {{ dataValue.q_mar_md }}</p>
+              <p>tm_mes_q4: {{ dataValue.tm_mes_q4 }}</p>
+              <p>tm_mes_q2: {{ dataValue.tm_mes_q2 }}</p>
+              <p>tm_mes_q3: {{ dataValue.tm_mes_q3 }}</p>
+              <p>np_300_min: {{ dataValue.np_300_min }}</p>
+              <p>p_sol_min: {{ dataValue.p_sol_min }}</p>
+              <p>n_cub_min: {{ dataValue.n_cub_min }}</p>
+              <p>n_gra_s: {{ dataValue.n_gra_s }}</p>
+              <p>w_racha_mn: {{ dataValue.w_racha_mn }}</p>
+              <p>p_max_cv: {{ dataValue.p_max_cv }}</p>
+              <p>ti_max_max: {{ dataValue.ti_max_max }}</p>
+              <p>n_gra_n: {{ dataValue.n_gra_n }}</p>
+              <p>tm_min_n: {{ dataValue.tm_min_n }}</p>
+              <p>nt_30_max: {{ dataValue.nt_30_max }}</p>
+              <p>q_max_max: {{ dataValue.q_max_max }}</p>
+              <p>tm_min_s: {{ dataValue.tm_min_s }}</p>
+              <p>nt_00_n: {{ dataValue.nt_00_n }}</p>
+              <p>nv_0050_min: {{ dataValue.nv_0050_min }}</p>
+              <p>ts_10_s: {{ dataValue.ts_10_s }}</p>
+              <p>n_nub_q4: {{ dataValue.n_nub_q4 }}</p>
+              <p>n_nub_q1: {{ dataValue.n_nub_q1 }}</p>
+              <p>n_nub_q2: {{ dataValue.n_nub_q2 }}</p>
+              <p>n_nub_q3: {{ dataValue.n_nub_q3 }}</p>
+              <p>ts_50_s: {{ dataValue.ts_50_s }}</p>
+              <p>ts_10_n: {{ dataValue.ts_10_n }}</p>
+              <p>nt_00_s: {{ dataValue.nt_00_s }}</p>
+              <p>ts_10_min: {{ dataValue.ts_10_min }}</p>
+              <p>tm_mes_mn: {{ dataValue.tm_mes_mn }}</p>
+              <p>np_100_min: {{ dataValue.np_100_min }}</p>
+              <p>nv_1000_min: {{ dataValue.nv_1000_min }}</p>
+              <p>nt_30_s: {{ dataValue.nt_30_s }}</p>
+              <p>nt_00_q3: {{ dataValue.nt_00_q3 }}</p>
+              <p>nt_00_q2: {{ dataValue.nt_00_q2 }}</p>
+              <p>nt_00_q1: {{ dataValue.nt_00_q1 }}</p>
+              <p>n_tor_min: {{ dataValue.n_tor_min }}</p>
+              <p>nt_00_q4: {{ dataValue.nt_00_q4 }}</p>
+              <p>ts_20_q3: {{ dataValue.ts_20_q3 }}</p>
+              <p>nt_00_max: {{ dataValue.nt_00_max }}</p>
+              <p>nw_55_min: {{ dataValue.nw_55_min }}</p>
+              <p>n_llu_mn: {{ dataValue.n_llu_mn }}</p>
+              <p>ts_50_mn: {{ dataValue.ts_50_mn }}</p>
+              <p>glo_min: {{ dataValue.glo_min }}</p>
+              <p>ts_50_md: {{ dataValue.ts_50_md }}</p>
+
+              <!-- "ts_50_md" : "",
+              "q_med_min" : "",
+              "nv_0050_cv" : "",
+              "inso_q2" : "",
+              "inso_q3" : "",
+              "inso_q1" : "",
+              "n_fog_max" : "",
+              "np_100_s" : "",
+              "np_300_s" : "",
+              "ta_min_cv" : "",
+              "tm_mes_cv" : "",
+              "ts_min_md" : "",
+              "ts_min_mn" : "",
+              "inso_cv" : "",
+              "np_300_n" : "7",
+              "np_100_n" : "7",
+              "ts_min_n" : "7",
+              "tm_max_md" : "",
+              "tm_max_mn" : "",
+              "ts_min_s" : "",
+              "tm_mes_q1" : "",
+              "p_max_q1" : "",
+              "p_max_q3" : "",
+              "p_max_q2" : "",
+              "p_max_q4" : "",
+              "n_nie_s" : "",
+              "n_gra_min" : "",
+              "nt_30_n" : "7",
+              "n_nie_n" : "0",
+              "ts_50_n" : "0",
+              "nv_0100_min" : "",
+              "q_mar_q1" : "",
+              "q_mar_q2" : "",
+              "q_mar_q3" : "",
+              "q_mar_q4" : "",
+              "p_max_min" : "",
+              "n_llu_cv" : "",
+              "n_nub_mn" : "",
+              "w_racha_q1" : "",
+              "w_racha_q3" : "",
+              "w_racha_q2" : "",
+              "n_nub_md" : "",
+              "w_racha_q4" : "",
+              "nt_00_cv" : "",
+              "np_010_q4" : "",
+              "np_010_q1" : "",
+              "np_010_q3" : "",
+              "np_010_q2" : "",
+              "nv_1000_q3" : "",
+              "ts_50_cv" : "",
+              "nv_0100_s" : "",
+              "n_llu_max" : "",
+              "tm_max_min" : "",
+              "tm_min_md" : "",
+              "q_mar_cv" : "",
+              "nv_0100_n" : "0",
+              "tm_min_mn" : "",
+              "ts_10_mn" : "",
+              "w_racha_cv" : "",
+              "evap_min" : "",
+              "ta_max_cv" : "",
+              "n_llu_q4" : "",
+              "n_llu_q2" : "",
+              "n_llu_q3" : "",
+              "n_llu_q1" : "",
+              "q_min_q4" : "",
+              "hr_min" : "",
+              "w_med_max" : "",
+              "nw_91_mn" : "",
+              "q_min_q1" : "",
+              "q_min_q2" : "",
+              "q_min_q3" : "",
+              "q_min_n" : "3",
+              "nw_91_md" : "",
+              "q_min_s" : "",
+              "n_tor_q4" : "",
+              "n_tor_q1" : "",
+              "n_tor_q2" : "",
+              "n_tor_q3" : "",
+              "tm_mes_min" : "",
+              "n_cub_max" : "",
+              "nw_55_cv" : "",
+              "tm_min_min" : "",
+              "q_mar_max" : "",
+              "nv_0100_q4" : "",
+              "nv_0100_q1" : "",
+              "nv_0100_q2" : "",
+              "nv_0100_q3" : "",
+              "q_max_q2" : "",
+              "q_max_q3" : "",
+              "q_max_q1" : "",
+              "q_max_q4" : "",
+              "nv_0100_cv" : "",
+              "ts_10_q3" : "",
+              "ts_10_q2" : "",
+              "ts_10_q1" : "",
+              "ts_10_q4" : "",
+              "q_max_cv" : "",
+              "ta_max_max" : "",
+              "np_010_cv" : "",
+              "ta_max_q4" : "",
+              "ta_max_q3" : "",
+              "ta_max_q2" : "",
+              "ta_max_q1" : "",
+              "np_010_min" : "",
+              "w_med_n" : "8",
+              "nv_1000_q4" : "",
+              "nv_1000_q2" : "",
+              "n_nie_max" : "",
+              "nv_1000_q1" : "",
+              "nv_1000_cv" : "",
+              "glo_max" : "",
+              "n_fog_s" : "",
+              "ti_max_q2" : "",
+              "n_fog_n" : "0",
+              "n_nie_cv" : "",
+              "np_001_min" : "",
+              "nw_55_q4" : "",
+              "n_fog_min" : "",
+              "nw_55_q2" : "",
+              "nw_55_q3" : "",
+              "nw_55_q1" : "",
+              "hr_n" : "6",
+              "hr_s" : "",
+              "q_med_s" : "",
+              "nv_0050_max" : "",
+              "ta_min_q2" : "",
+              "n_des_max" : "",
+              "n_fog_mn" : "",
+              "p_sol_max" : "",
+              "np_001_s" : "",
+              "n_fog_md" : "",
+              "q_min_cv" : "",
+              "np_001_n" : "7",
+              "e_max" : "",
+              "nt_00_md" : "",
+              "np_100_mn" : "",
+              "nt_30_q1" : "",
+              "nt_00_mn" : "",
+              "glo_q4" : "",
+              "glo_q2" : "",
+              "glo_q3" : "",
+              "np_100_md" : "",
+              "inso_n" : "0",
+              "q_med_q1" : "",
+              "np_001_md" : "",
+              "np_001_mn" : "",
+              "ti_max_cv" : "",
+              "nv_1000_mn" : "",
+              "nv_1000_md" : "",
+              "evap_md" : "",
+              "ta_min_max" : "",
+              "e_md" : "",
+              "e_mn" : "",
+              "nt_30_q3" : "",
+              "ti_max_md" : "",
+              "n_llu_n" : "0",
+              "ti_max_mn" : "",
+              "glo_s" : "",
+              "glo_n" : "0",
+              "ts_min_cv" : "",
+              "n_llu_s" : "",
+              "nv_0050_mn" : "",
+              "n_nie_q3" : "",
+              "n_nie_q2" : "",
+              "n_nie_q4" : "",
+              "glo_cv" : "",
+              "tm_max_max" : "",
+              "ts_20_mn" : "",
+              "tm_max_cv" : "",
+              "ts_20_md" : "",
+              "np_001_cv" : "",
+              "p_max_mn" : "",
+              "nw_91_max" : "",
+              "p_max_md" : "",
+              "q_med_cv" : "",
+              "ts_50_max" : "",
+              "ts_50_min" : "",
+              "ta_min_n" : "7",
+              "e_q4" : "",
+              "e_q3" : "",
+              "e_q2" : "",
+              "e_q1" : "",
+              "glo_q1" : "",
+              "w_racha_md" : "",
+              "q_min_min" : "",
+              "ts_min_q3" : "",
+              "ts_min_q2" : "",
+              "ts_min_q1" : "",
+              "p_mes_max" : "",
+              "ts_min_q4" : "",
+              "q_mar_min" : "",
+              "tm_max_q3" : "",
+              "tm_max_q2" : "",
+              "tm_max_q1" : "",
+              "p_mes_mn" : "",
+              "tm_max_q4" : "",
+              "n_gra_mn" : "",
+              "tm_min_max" : "",
+              "np_001_q4" : "",
+              "np_001_q3" : "",
+              "np_001_q2" : "",
+              "np_001_q1" : "",
+              "ti_max_n" : "7",
+              "w_med_md" : "",
+              "ti_max_q4" : "",
+              "ti_max_q3" : "",
+              "n_gra_q2" : "",
+              "ti_max_q1" : "",
+              "ti_max_s" : "",
+              "q_med_q2" : "",
+              "q_med_q3" : "",
+              "nt_30_q2" : "",
+              "n_nie_min" : "",
+              "nt_30_q4" : "",
+              "q_med_q4" : "",
+              "n_cub_md" : "",
+              "n_cub_mn" : "",
+              "ta_max_min" : "",
+              "np_010_max" : "",
+              "inso_md" : "",
+              "inso_mn" : "",
+              "evap_mn" : ""
+            }, -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC17 && !sectionOPCResponse17">
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search-box"></div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC17 && sectionOPCResponse17"> </ng-container>
     <div class="row">
       <!-- Agrega el botón de vuelta atrás -->
       <button class="btn btnBack mx-auto" (click)="goBack()">
