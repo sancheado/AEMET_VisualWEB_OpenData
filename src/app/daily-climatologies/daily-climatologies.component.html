@@ -3674,12 +3674,283 @@
       <div class="row">
         <h1 class="text-left">{{ selectedTitle }}</h1>
         <h4>{{ selectedSubtitle }}</h4>
-        <div class="search-box"></div>
+        <div class="search-box">
+          <p>Parámetro Meteorológico:</p>
+          <select
+            id="weatherParameter"
+            class="form-control rounded-pill yearInput"
+            [(ngModel)]="selectweatherParameter"
+          >
+            <option
+              *ngFor="let parameter of meteorologicalParameter"
+              [value]="parameter.codigo"
+            >
+              {{ parameter.parametro }}
+            </option>
+          </select>
+          <p>Indicativo climatológico de la EMA:</p>
+          <select
+            id="tipoMensa"
+            class="form-control rounded-pill yearInput"
+            [(ngModel)]="selectedIndicator"
+          >
+            <option
+              *ngFor="let tipo of climaticValuesLoaded"
+              [value]="tipo.indicativo"
+            >
+              {{ tipo.nombre }}
+            </option>
+          </select>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC17()">
+              Continuar
+            </button>
+          </div>
+        </div>
       </div>
     </ng-container>
-    <ng-container *ngIf="sectionOPC17 && sectionOPCResponse17"> </ng-container>
+    <ng-container *ngIf="sectionOPC17 && sectionOPCResponse17">
+      <div class="row">
+        <h1 class="text-center">Valores extremos para: </h1>
+        <h4 class="text-center">El Indicativo climatológico de la EMA ({{EmaStation}}) y el parametro: (<strong>{{WeatherParameter}}</strong>)(Precipitación, Temperatura, Viento)</h4>
+        <div class="search-box" style="width: 85%;max-width:100%!important;">
+          <ng-container *ngFor="let data of WeatherDataValues | keyvalue">            
+            <ng-container *ngIf="data.key === 'indicativo'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Indicativo</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p>{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>            
+            <ng-container *ngIf="data.key === 'nombre'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Nombre</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p>{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'ubicacion'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Ubicación</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p>{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'codigo'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Codigo</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p>{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'maxDiasMesPrec'">
+              <div class="row text-center">
+                <div class="col-sm" style="width:45%!important;">
+                  <p><strong>Máx. Días Mes Precipitación</strong></p>
+                </div>
+                <div class="col-sm" style="width:45%!important;">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'anioMaxDiasMesPrec'">
+              <div class="row text-center">
+                <div class="col-sm" style="width:45%!important;">
+                  <p><strong>Año Máx. Días Mes Precipitación</strong></p>
+                </div>
+                <div class="col-sm" style="width:45%!important;">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'mesMaxDiasMesPrec'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Mes Máx. Días Mes Precipitación</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'maxDiasMesNieve'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Máx. Días Mes Nieve</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'anioMaxDiasMesNieve'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Año Máx. Días Mes Nieve</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'mesMaxDiasMesNieve'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Mes Máx. Días Mes Nieve</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'maxDiasMesTormenta'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Máx. Días Mes Tormenta</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'anioMaxDiasMesTormenta'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Año Máx. Días Mes Tormenta</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'mesMaxDiasMesTormenta'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Mes Máx. Días Mes Tormenta</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'precMaxDia'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Precipitación Máx. Día</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'diaMaxDia'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Día Máx. Día</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'anioMaxDia'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Año Máx. Día</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'mesMaxDia'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Mes Máx. Día</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'precMaxMen'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Precipitación Máx. Mensual</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'anioMaxMen'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Año Máx. Mensual</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'mesMaxMen'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Mes Máx. Mensual</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="data.key === 'precMinMen'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Precipitación Mín. Mensual</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'anioMinMes'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Año Mín. Mensual</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data.key === 'mesMinMen'">
+              <div class="row text-center">
+                <div class="col-sm">
+                  <p><strong>Mes Mín. Mensual</strong></p>
+                </div>
+                <div class="col-sm">
+                  <p class="LargeText">{{ data.value }}</p>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>          
+        </div>
+      </div>
+    </ng-container>
     <div class="row">
-      <!-- Agrega el botón de vuelta atrás -->
       <button class="btn btnBack mx-auto" (click)="goBack()">
         Volver atrás
       </button>

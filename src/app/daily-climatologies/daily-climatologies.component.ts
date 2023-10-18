@@ -25,6 +25,33 @@ interface climaticsValues {
   indsinop : string;
   longitud : string;
 }
+
+interface WeatherData {
+  indicativo: string;
+  nombre: string;
+  ubicacion: string;
+  codigo: string;
+  maxDiasMesPrec: string[];
+  anioMaxDiasMesPrec: string[];
+  mesMaxDiasMesPrec: string;
+  maxDiasMesNieve: string[];
+  anioMaxDiasMesNieve: string[];
+  mesMaxDiasMesNieve: string;
+  maxDiasMesTormenta: string[];
+  anioMaxDiasMesTormenta: string[];
+  mesMaxDiasMesTormenta: string;
+  precMaxDia: string[];
+  diaMaxDia: string[];
+  anioMaxDia: string[];
+  mesMaxDia: string;
+  precMaxMen: string[];
+  anioMaxMen: string[];
+  mesMaxMen: string;
+  precMinMen: string[];
+  anioMinMes: string[];
+  mesMinMen: string;
+}
+
 @Component({
   selector: 'app-daily-climatologies',
   templateUrl: './daily-climatologies.component.html',
@@ -76,6 +103,19 @@ export class DailyClimatologiesComponent {
   AnnualMonthlyClimateData: any[] = [];
   matchingName: string = '';
 
+  meteorologicalParameter: any[] = [
+    {codigo: "P", parametro: "Precipitación"},
+    {codigo: "T", parametro: "Temperatura"},
+    {codigo: "V", parametro: "Viento"},
+  ];
+  selectweatherParameter: string = 'P';
+
+  WeatherDataValues: WeatherData[] = [];
+  WeatherDataArray: WeatherData[] = [];
+
+  EmaStation: string = '';
+  WeatherParameter: string = '';
+  
   constructor(
     private appComponente: AppComponent,
     private sharedService: SharedService,
@@ -103,7 +143,6 @@ export class DailyClimatologiesComponent {
     }
     else if(this.contentToChange === 'opcion13'){
       this.loadClimaticData();
-      // this.loadClimatologicalIndicators();
       this.sectionOPC13 = true;
       this.selectedTitle = 'Estaciones por indicativo.';
       this.selectedSubtitle = 'Características de la estación climatológica pasada por parámetro. ';
@@ -136,6 +175,7 @@ export class DailyClimatologiesComponent {
 
     }
     else if(this.contentToChange === 'opcion17'){
+      this.loadClimaticData();
       this.sectionOPC17 = true;
       this.selectedTitle = '  Valores extremos.  ';
       this.selectedSubtitle = 'Valores extremos para la estación y la variable (precipitación, temperatura y viento) pasadas por parámetro. Periodicidad: 1 vez al día. ';
@@ -372,7 +412,45 @@ export class DailyClimatologiesComponent {
     );
   }
 
+  callToApiOPC17(){
+    console.log("this.selectweatherParameter: ", this.selectweatherParameter);
+    console.log("this.selectedIndicator: ", this.selectedIndicator);
 
+    const apiKey = environment.apiKey;
+
+    const apiUrl = `https://opendata.aemet.es/opendata/api/valores/climatologicos/valoresextremos/parametro/${this.selectweatherParameter}/estacion/${this.selectedIndicator}?api_key=${apiKey}`;
+
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        if (response && response.datos) {
+          const dataUrl = response.datos;
+
+          this.http.get(dataUrl).subscribe(
+            (data: any) => {
+              if (Object.keys(data).length > 0) {
+                console.log(data);                
+                this.sectionOPCResponse17 = true;
+                this.WeatherDataValues = data;
+                this.WeatherDataArray = Object.values(this.WeatherDataValues);
+                this.EmaStation = this.selectedIndicator;
+                this.WeatherParameter = this.selectweatherParameter;
+              } else {
+                console.error('El arreglo de datos está vacío.');
+              }
+            },
+            (error) => {
+              console.error('Error al obtener los datos de la API:', error);
+            }
+          );
+        } else {
+          console.error('La respuesta de la API no contiene el campo "datos".');
+        }
+      },
+      (error) => {
+        console.error('Error al obtener la URL de los datos de la API:', error);
+      }
+    );
+  }
 
   formatDate(date: Date): string {
     console.log(date);
