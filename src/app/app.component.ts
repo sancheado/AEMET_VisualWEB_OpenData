@@ -582,7 +582,13 @@ export class AppComponent {
       selectedOptionValue
     )){
       this.router.navigateByUrl('/daily-climatologies');
-    }else {
+    }
+    else if(['opcion18', 'opcion19'].includes(
+      selectedOptionValue
+    )){
+      this.router.navigateByUrl('/satellite-information');
+    }
+    else {
       console.log('Opción inválida');
     }
   }

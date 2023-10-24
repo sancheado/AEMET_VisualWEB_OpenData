@@ -1,0 +1,49 @@
+#daily-climatologies {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110vh;
+    background-color: #fff;
+  }
+  
+  .header-section {
+    background-image: url(../../assets/img/fondo.jpg);
+    background-size: cover;
+  }
+  
+  .body-header {
+    position: relative;
+    padding-top: 8%;
+    padding-bottom: 8%;
+  }
+  
+  .body-header h1,
+  .body-header h2 {
+    color: #fff;
+  }
+  
+  .body-header h1 span {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  }
+  .body-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .btnRow {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    margin: 9px;
+  }  
+  
+  .btnBack {
+    background-color: #5785b3;
+    color: #ccc;
+    border: 0.6px solid lightgrey;
+    width: 25%;
+    margin: 15px;
+    margin-bottom:100px!important;
+  }
+  

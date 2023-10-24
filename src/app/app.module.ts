@@ -7,13 +7,15 @@ import { SpecificPredictionsComponent } from './specific-predictions/specific-pr
 import { FormsModule } from '@angular/forms';
 import { ObservationConventionalComponent } from './observation-conventional/observation-conventional.component';
 import { DailyClimatologiesComponent } from './daily-climatologies/daily-climatologies.component';
+import { SatelliteInformationComponent } from './satellite-information/satellite-information.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SpecificPredictionsComponent,
     ObservationConventionalComponent,
-    DailyClimatologiesComponent
+    DailyClimatologiesComponent,
+    SatelliteInformationComponent
   ],
   imports: [
     BrowserModule,

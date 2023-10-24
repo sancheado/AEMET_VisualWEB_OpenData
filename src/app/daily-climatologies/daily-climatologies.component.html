@@ -40,7 +40,19 @@
               id="dateInput2"
             />
           </div>
-          <p class="date_daily-climatologies">Provincia</p>
+          <p>Indicativo climatológico de la EMA:</p>
+          <select
+            id="tipoMensa"
+            class="form-control rounded-pill yearInput"
+            [(ngModel)]="selectedIndicator"
+          >
+            <option
+              *ngFor="let tipo of climaticValuesLoaded"
+              [value]="tipo.indicativo"
+            >
+              {{ tipo.nombre }}
+            </option>
+          </select>
 
           <div class="btnDiv">
             <button type="button" class="btn-search" (click)="callToApiOPC11()">

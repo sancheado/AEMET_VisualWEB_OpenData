@@ -128,6 +128,7 @@ export class DailyClimatologiesComponent {
     this.contentToChange = this.sharedService.contentToChange;
 
     if (this.contentToChange === 'opcion11') {
+      this.loadClimaticData();
       this.sectionOPC11 = true;
       this.selectedTitle = 'Climatologías diarías.';
       this.selectedSubtitle = 'Valores climatológicos para el rango de fechas y la estación seleccionada. Periodicidad: 1 vez al día. ';
@@ -186,11 +187,14 @@ export class DailyClimatologiesComponent {
   }
 
   callToApiOPC11(): void{
-    if(this.selectedDate != null || this.selectedDate != ''){
-      console.log(this.selectedDate);
-      console.log(this.selectedProvince);
-      console.log(this.selectedMuni);
 
+    if(this.selectedDate !== null || this.selectedDate2 !== null){
+      let fechaIniStr = this.selectedDate + ':00UTC';
+      let fechaFinStr =  this.selectedDate2 + ':00UTC';
+      let indicativoEMA = this.selectedIndicator;
+      console.log("fechaIniStr: ", fechaIniStr);
+      console.log("fechaFinStr: ", fechaFinStr);
+      console.log("selectedIndicator: ", this.selectedIndicator);
     }
     else{
       console.log("No tienes datos que mostrar!");
