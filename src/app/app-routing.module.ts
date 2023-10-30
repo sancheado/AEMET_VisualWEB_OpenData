@@ -4,6 +4,8 @@ import { SpecificPredictionsComponent } from './specific-predictions/specific-pr
 import { ObservationConventionalComponent } from './observation-conventional/observation-conventional.component';
 import { DailyClimatologiesComponent } from './daily-climatologies/daily-climatologies.component';
 import { SatelliteInformationComponent } from './satellite-information/satellite-information.component';
+import { MapsAndChartsComponent } from './maps-and-charts/maps-and-charts.component';
+import { TeacherComponent } from './teacher/teacher.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'app-root', pathMatch: 'full' },
@@ -11,6 +13,8 @@ const routes: Routes = [
   { path: 'observation-conventional', component: ObservationConventionalComponent, pathMatch: 'full' },
   { path: 'daily-climatologies', component: DailyClimatologiesComponent, pathMatch: 'full' },
   { path: 'satellite-information', component: SatelliteInformationComponent, pathMatch: 'full' },
+  { path: 'maps-charts', component: MapsAndChartsComponent, pathMatch: 'full' },
+  { path: 'teacher-teacher', component: TeacherComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

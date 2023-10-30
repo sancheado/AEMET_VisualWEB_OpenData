@@ -1,0 +1,69 @@
+<div class="daily-climatologies">
+  <section class="header-section">
+    <div class="container">
+      <div class="row">
+        <div class="body-header">
+          <a href="http://www.aemet.es" target="new"
+            ><img src="./assets/img/logo_AEMET_web.gif"
+          /></a>
+          <img src="./assets/img/logo_opendata_p.gif" />
+          <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
+          <h2 class="text-left">
+            Sistema para la visualización y reutilización de la información de
+            AEMET
+          </h2>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <ng-container *ngIf="sectionOPC20">
+      <ng-container *ngIf="loading">
+        <div class="centered-container Myspinner">
+          <mat-spinner> </mat-spinner>
+          <p>Cargando datos...</p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="sectionOPCResponse20 && imgRoute !== null">
+        <div class="row">
+          <h1 class="text-left">{{ selectedTitle }}</h1>
+          <h4>{{ selectedSubtitle }}</h4>
+          <div class="search-box">
+            <a [href]="imgRoute" target="_blank">
+              <img
+                [src]="imgRoute"
+                class="imgApi"
+                style="transform: rotate(90deg)"
+                alt="Estos mapas muestran la configuración de la presión en superficie usando isobaras (lineas de igual presión), áreas de alta (A, a) y baja (B, b) presión y los frentes en Europa y el Atlántico Norte.El mapa de análisis presenta el estado de la atmósfera a la hora correspondiente y los fenómenos más relevantes observados en España. Periodicidad de actualización: cada 12 horas (00, 12)."
+              />
+            </a>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="sectionOPC21 && !sectionOPCResponse21">
+      <div class="row">
+        <h1 class="text-left">{{ selectedTitle }}</h1>
+        <h4>{{ selectedSubtitle }}</h4>
+        <div class="search-box">
+          <p class="date_daily-climatologies">Fecha Inicial</p>
+          <div class="row">
+            <input
+              class="selectorDate"
+              type="datetime-local"
+              [(ngModel)]="selectedDate"
+              id="dateInput"
+            />
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="sectionOPCResponse21 && imgRoute !== null">
+      </ng-container>
+    </ng-container>
+    <div class="row">
+      <button class="btn btnBack mx-auto" (click)="goBack()">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+</div>

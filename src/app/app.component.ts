@@ -588,6 +588,16 @@ export class AppComponent {
     )){
       this.router.navigateByUrl('/satellite-information');
     }
+    else if(['opcion20', 'opcion21'].includes(
+      selectedOptionValue
+    )){
+      this.router.navigateByUrl('/maps-charts');
+    }
+    else if(['opcion22', 'opcion23'].includes(
+      selectedOptionValue
+    )){
+      this.router.navigateByUrl('/teacher-teacher');
+    }
     else {
       console.log('Opción inválida');
     }

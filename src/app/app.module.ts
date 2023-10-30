@@ -8,6 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { ObservationConventionalComponent } from './observation-conventional/observation-conventional.component';
 import { DailyClimatologiesComponent } from './daily-climatologies/daily-climatologies.component';
 import { SatelliteInformationComponent } from './satellite-information/satellite-information.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MapsAndChartsComponent } from './maps-and-charts/maps-and-charts.component';
+import { TeacherComponent } from './teacher/teacher.component';
+
 
 @NgModule({
   declarations: [
@@ -15,12 +19,15 @@ import { SatelliteInformationComponent } from './satellite-information/satellite
     SpecificPredictionsComponent,
     ObservationConventionalComponent,
     DailyClimatologiesComponent,
-    SatelliteInformationComponent
+    SatelliteInformationComponent,
+    MapsAndChartsComponent,
+    TeacherComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MatProgressSpinnerModule,
     FormsModule
   ],
   providers: [],
