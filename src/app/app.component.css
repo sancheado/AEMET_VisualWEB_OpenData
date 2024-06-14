@@ -22,6 +22,7 @@ body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+
 .body-header h2 {
   font-size: 1.5rem;
 }
@@ -114,4 +115,18 @@ footer {
   width: 98.8%;
 }
 
-.changeStyle{display:none;}
+.changeStyle {
+  display: none;
+}
+
+
+
+/* Los nuevos para clarity */
+.myCard {
+  margin: 1rem auto !important;
+}
+
+.card-text {
+  display: flex;
+  justify-content: center;
+}

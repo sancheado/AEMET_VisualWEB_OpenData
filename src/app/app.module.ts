@@ -11,7 +11,7 @@ import { SatelliteInformationComponent } from './satellite-information/satellite
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MapsAndChartsComponent } from './maps-and-charts/maps-and-charts.component';
 import { TeacherComponent } from './teacher/teacher.component';
-
+import { ClarityModule } from '@clr/angular';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,9 @@ import { TeacherComponent } from './teacher/teacher.component';
     AppRoutingModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    FormsModule
+    FormsModule,
+    ClarityModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

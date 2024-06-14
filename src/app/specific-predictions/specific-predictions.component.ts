@@ -456,6 +456,8 @@ export class SpecificPredictionsComponent {
                 this.ResponseAPI1 = true;
                 this.seccionData = this.apiData.seccion[0];
                 this.seccionData.parrafo;
+                console.log("this.seccionData: " , this.seccionData);
+                console.log("this.seccionData.parrafo: " , this.seccionData.parrafo);
               } else {
                 console.error('El arreglo de datos está vacío.');
               }

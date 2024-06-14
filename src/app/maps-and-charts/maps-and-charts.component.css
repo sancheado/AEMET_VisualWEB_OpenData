@@ -63,3 +63,18 @@
   .imgApi{
     width: 100%;
   }
+
+  .search-box{text-align: center;}
+  .selectorDate{width: 26%;margin: 15px;}
+  #tipoMensa, #dateInput{width: 26%;margin-left: auto;margin-right: auto;}
+
+  .search-box .btn-search {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fbcf00;
+    color: #f8f9fa;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }

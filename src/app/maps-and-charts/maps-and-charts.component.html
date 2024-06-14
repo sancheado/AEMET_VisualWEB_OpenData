@@ -46,14 +46,43 @@
         <h1 class="text-left">{{ selectedTitle }}</h1>
         <h4>{{ selectedSubtitle }}</h4>
         <div class="search-box">
-          <p class="date_daily-climatologies">Fecha Inicial</p>
-          <div class="row">
-            <input
-              class="selectorDate"
-              type="datetime-local"
-              [(ngModel)]="selectedDate"
-              id="dateInput"
-            />
+          <div>
+            <p class="date_daily-climatologies">Fecha Inicial</p>
+          </div>
+          <input
+            class="form-control rounded-pill selectorDate"
+            type="datetime-local"
+            [(ngModel)]="selectedDate"
+            id="dateInput"
+          />
+          <div>
+            <p class="date_daily-climatologies">Ambito</p>
+          </div>
+          <select
+            id="tipoMensa"
+            class="form-control rounded-pill yearInput"
+            [(ngModel)]="ambiiiito"
+          >
+            <option *ngFor="let ambito of ambit" [value]="ambito.code">
+              {{ ambito.ambito }}
+            </option>
+          </select>
+          <div>
+            <p class="date_daily-climatologies">Dia</p>
+          </div>
+          <select
+            id="tipoMensa"
+            class="form-control rounded-pill yearInput"
+            [(ngModel)]="diiia"
+          >
+            <option *ngFor="let dia of diaCodigo" [value]="dia.code">
+              {{ dia.day }}
+            </option>
+          </select>
+          <div class="btnDiv">
+            <button type="button" class="btn-search" (click)="callToApiOPC21()">
+              Continuar
+            </button>
           </div>
         </div>
       </div>

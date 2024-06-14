@@ -16,7 +16,107 @@
       </div>
     </div>
   </section>
-  <div class="search-box">
+  <div class="clr-row">
+    <div class="clr-col-lg-5 clr-col-md-8 clr-col-12 myCard">
+      <div class="card">
+        <div class="card-header">Escoga 1 acción:</div>
+        <div class="card-block">
+          <div class="card-title"></div>
+          <div class="card-text">
+            <select id="action" (change)="onOptionChange()" [(ngModel)]="selectedOption">
+              <optgroup label="Predicciones Especificas">
+                <option *ngFor="let option of opcionesGrupo1" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Observacion Convencional">
+                <option *ngFor="let option of opcionesGrupo2" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Valores Climatologicos">
+                <option *ngFor="let option of opcionesGrupo3" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Informacion Satelite">
+                <option *ngFor="let option of opcionesGrupo4" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Mapas Y Graficos">
+                <option *ngFor="let option of opcionesGrupo5" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Maestro">
+                <option *ngFor="let option of opcionesGrupo6" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Productos Climatologicos">
+                <option *ngFor="let option of opcionesGrupo7" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Prediccion Maritima">
+                <option *ngFor="let option of opcionesGrupo8" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Redes Especiales">
+                <option *ngFor="let option of opcionesGrupo9" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Red-Rayos">
+                <option *ngFor="let option of opcionesGrupo10" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Indices-Incendios">
+                <option *ngFor="let option of opcionesGrupo11" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Predicciones-normalizadas-texto">
+                <option *ngFor="let option of opcionesGrupo12" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Red Radares">
+                <option *ngFor="let option of opcionesGrupo13" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Avisos">
+                <option *ngFor="let option of opcionesGrupo14" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+              <optgroup label="Antartida">
+                <option *ngFor="let option of opcionesGrupo15" [ngValue]="option">
+                  {{ option.option }}
+                </option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="clr-row">
+            <button type="button" class="btn-search btnDiv" (click)="onContinueClick()">Continuar</button>
+            <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
+            <p>&copy; Made by Sanchez</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+ 
+ 
+ 
+  <!-- <div class="search-box">
     <label for="action">Acción:</label>
     <select id="action" (change)="onOptionChange()" [(ngModel)]="selectedOption">
       <optgroup label="Predicciones Especificas">
@@ -99,7 +199,7 @@
     <div class="btnDiv">
       <button type="button" class="btn-search" (click)="onContinueClick()">Continuar</button>
     </div>
-  </div>
+  </div> -->
 </div>
 
 
