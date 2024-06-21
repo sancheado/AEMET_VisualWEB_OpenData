@@ -27,6 +27,7 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+
 .body-header h2 {
   font-size: 1.5rem;
 }
@@ -49,9 +50,9 @@
 
 .search-box {
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   margin: 50px auto;
-  padding: 20px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -82,54 +83,58 @@
   border: 2px solid #ffd400;
 }
 
-.btnBack {
-  background-color: #5785b3;
-  color: #ccc;
-  border: 0.6px solid lightgrey;
-  width: 25%;
-  margin: 15px;
-  margin-bottom:100px!important;
-}
 
 .txtTitle {
   font-weight: 500;
   margin-left: 5px;
-  margin-bottom: 0.1rem!important;
+  margin-bottom: 0.1rem !important;
 }
 
 .txtSubtitle {
   width: 95%;
   margin-left: 10px;
   font-size: 1rem;
-  margin-bottom: 0.1rem!important;
+  margin-bottom: 0.1rem !important;
 }
 
-.languageImg{
-  width: 25px!important;
-  height: 25px!important;
+.languageImg {
+  width: 25px !important;
+  height: 25px !important;
   margin-left: 10px;
   margin-right: 10px;
 }
 
-.card-text a{
+.card-text a {
   text-decoration: none;
   color: #5785b3;
 }
 
-.card-text a:hover{
+.card-text a:hover {
   color: #ffd400;
   background-color: #5785b3;
 }
 
-.cabecera h3{font-weight: 700;text-transform: capitalize;}
-.cabecera h5{font-weight: 700;text-transform: capitalize;margin-left: -15px;}
+.cabecera h3 {
+  font-weight: 700;
+  text-transform: capitalize;
+}
 
-.card-body p{width: 95%;}
+.cabecera h5 {
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-left: -15px;
+}
+
+.card-body p {
+  width: 95%;
+}
+
 textarea {
   border: 0.5px solid lightgrey;
   width: 98.5%;
   height: 125px;
 }
+
 .search-box .btn-search {
   display: inline-block;
   padding: 10px 20px;

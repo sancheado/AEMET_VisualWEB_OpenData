@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Location } from '@angular/common';
 import { SharedService } from '../shared.service';
@@ -27,7 +27,10 @@ interface tipoMensaje {
   templateUrl: './observation-conventional.component.html',
   styleUrls: ['./observation-conventional.component.css'],
 })
-export class ObservationConventionalComponent {
+export class ObservationConventionalComponent implements OnInit {
+  @Input() data: any;
+
+
   contentToChange: string = '';
   selectedTitle: string = '';
   selectedSubtitle: string = '';
@@ -52,7 +55,7 @@ export class ObservationConventionalComponent {
     private location: Location,
     private sharedService: SharedService,
     private http: HttpClient
-  ) {}
+  ) { }
 
   UbicacionList: estacionIDEMA[] = [
     { codigoInterno: '1719', Ubicacion: 'A CAÑIZA' },
@@ -961,14 +964,17 @@ export class ObservationConventionalComponent {
   ];
 
   tipoMensajeList: tipoMensaje[] = [
-    {codigo:"climat", tipo:'climat'},
-    {codigo:"synop", tipo:'synop'},
-    {codigo:"temp", tipo:'temp'}
+    { codigo: "climat", tipo: 'climat' },
+    { codigo: "synop", tipo: 'synop' },
+    { codigo: "temp", tipo: 'temp' }
   ];
 
   ngOnInit(): void {
     this.appComponente.changeStyle = true;
-    this.contentToChange = this.sharedService.contentToChange;
+
+    this.contentToChange = this.data;
+    console.log("this.data: ", this.data);
+    // this.contentToChange = this.sharedService.contentToChange;
     if (this.contentToChange === 'opcion8') {
       this.sectionOPC8 = true;
       this.selectedTitle = 'Datos de observación. ';
@@ -1035,11 +1041,11 @@ export class ObservationConventionalComponent {
             const dataUrl = data.datos; // Esta es la matriz de datos que obtuviste
             this.sectionOPCResponse9 = true;
             this.http
-            .get<ObservationData[]>(dataUrl)
-            .subscribe((response: any[]) => {
-              console.log("response: ", response);
-              this.observationData = response as ObservationData[];
-            });
+              .get<ObservationData[]>(dataUrl)
+              .subscribe((response: any[]) => {
+                console.log("response: ", response);
+                this.observationData = response as ObservationData[];
+              });
 
             // this.processAndDisplayData(dataArray);
           }
@@ -1047,12 +1053,12 @@ export class ObservationConventionalComponent {
         break;
 
       case 3: // Llamada a la tercera API, y así sucesivamente
-      const selectedSelect3 = (
-        document.getElementById('tipoMensa') as HTMLSelectElement
-      ).value;
+        const selectedSelect3 = (
+          document.getElementById('tipoMensa') as HTMLSelectElement
+        ).value;
 
-      console.log("selectedSelect:", selectedSelect3);
-      const apiUrl3 = `https://opendata.aemet.es/opendata/api/observacion/convencional/mensajes/tipomensaje/${selectedSelect3}?api_key=${apiKey}`;
+        console.log("selectedSelect:", selectedSelect3);
+        const apiUrl3 = `https://opendata.aemet.es/opendata/api/observacion/convencional/mensajes/tipomensaje/${selectedSelect3}?api_key=${apiKey}`;
         this.http.get(apiUrl3).subscribe((data: any) => {
           console.log("datos: ", data);
           if (data && data.datos) {

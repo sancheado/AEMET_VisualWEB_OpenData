@@ -6,6 +6,7 @@ import { DailyClimatologiesComponent } from './daily-climatologies/daily-climato
 import { SatelliteInformationComponent } from './satellite-information/satellite-information.component';
 import { MapsAndChartsComponent } from './maps-and-charts/maps-and-charts.component';
 import { TeacherComponent } from './teacher/teacher.component';
+import { ClimatologicProductsComponent } from './climatologic-products/climatologic-products.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'app-root', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'satellite-information', component: SatelliteInformationComponent, pathMatch: 'full' },
   { path: 'maps-charts', component: MapsAndChartsComponent, pathMatch: 'full' },
   { path: 'teacher-teacher', component: TeacherComponent, pathMatch: 'full' },
+  { path: 'climatologic-products', component: ClimatologicProductsComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

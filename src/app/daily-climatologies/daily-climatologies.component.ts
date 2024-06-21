@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Location } from '@angular/common';
 import { SharedService } from '../shared.service';
@@ -18,12 +18,12 @@ interface Province {
 }
 interface climaticsValues {
   latitud: string;
-  provincia : string;
-  altitud : string;
-  indicativo : string;
-  nombre : string;
-  indsinop : string;
-  longitud : string;
+  provincia: string;
+  altitud: string;
+  indicativo: string;
+  nombre: string;
+  indsinop: string;
+  longitud: string;
 }
 
 interface WeatherData {
@@ -60,6 +60,8 @@ interface WeatherData {
 
 
 export class DailyClimatologiesComponent {
+  @Input() data: any;
+
   contentToChange: string = '';
 
   sectionOPC11: boolean = false;
@@ -91,8 +93,8 @@ export class DailyClimatologiesComponent {
   excelMunicipiosData: any[] = [];
   filteredData: any[] = [];
 
-  climaticValues: climaticsValues[] = [];  
-  climaticValuesLoaded: climaticsValues[] = [];  
+  climaticValues: climaticsValues[] = [];
+  climaticValuesLoaded: climaticsValues[] = [];
 
   selectedIndicator: string = '1387';
   selectedIndicatorResponseApi: climaticsValues[] = [];
@@ -104,9 +106,9 @@ export class DailyClimatologiesComponent {
   matchingName: string = '';
 
   meteorologicalParameter: any[] = [
-    {codigo: "P", parametro: "Precipitación"},
-    {codigo: "T", parametro: "Temperatura"},
-    {codigo: "V", parametro: "Viento"},
+    { codigo: "P", parametro: "Precipitación" },
+    { codigo: "T", parametro: "Temperatura" },
+    { codigo: "V", parametro: "Viento" },
   ];
   selectweatherParameter: string = 'P';
 
@@ -115,17 +117,18 @@ export class DailyClimatologiesComponent {
 
   EmaStation: string = '';
   WeatherParameter: string = '';
-  
+
   constructor(
     private appComponente: AppComponent,
     private sharedService: SharedService,
     private location: Location,
     private http: HttpClient,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.appComponente.changeStyle = true;
-    this.contentToChange = this.sharedService.contentToChange;
+    this.contentToChange = this.data;
+    // this.contentToChange = this.sharedService.contentToChange;
 
     if (this.contentToChange === 'opcion11') {
       this.loadClimaticData();
@@ -135,14 +138,14 @@ export class DailyClimatologiesComponent {
       this.selectedContent =
         'Valores climatológicos para el rango de fechas y la estación seleccionada. Periodicidad: 1 vez al día. ';
     }
-    else if(this.contentToChange === 'opcion12'){
+    else if (this.contentToChange === 'opcion12') {
       this.sectionOPC12 = true;
       this.selectedTitle = 'Climatologías diarías.';
       this.selectedSubtitle = 'Valores climatológicos de todas las estaciones para el rango de fechas seleccionado. Periodicidad: 1 vez al día. ';
       this.selectedContent =
         'Valores climatológicos de todas las estaciones para el rango de fechas seleccionado. Periodicidad: 1 vez al día. ';
     }
-    else if(this.contentToChange === 'opcion13'){
+    else if (this.contentToChange === 'opcion13') {
       this.loadClimaticData();
       this.sectionOPC13 = true;
       this.selectedTitle = 'Estaciones por indicativo.';
@@ -150,7 +153,7 @@ export class DailyClimatologiesComponent {
       this.selectedContent =
         'Características de la estación climatológica pasada por parámetro. ';
     }
-    else if(this.contentToChange === 'opcion14'){
+    else if (this.contentToChange === 'opcion14') {
       this.sectionOPC14 = true;
       this.selectedTitle = ' Inventario de estaciones (valores climatológicos). ';
       this.selectedSubtitle = 'Inventario con las características de todas las estaciones climatológicas. Periodicidad: 1 vez al día. ';
@@ -158,7 +161,7 @@ export class DailyClimatologiesComponent {
         'Inventario con las características de todas las estaciones climatológicas. Periodicidad: 1 vez al día. ';
       this.callToApiOPC14();
     }
-    else if(this.contentToChange === 'opcion15'){
+    else if (this.contentToChange === 'opcion15') {
       this.loadClimaticData();
       this.sectionOPC15 = true;
       this.selectedTitle = '  Climatologías mensuales anuales.  ';
@@ -166,7 +169,7 @@ export class DailyClimatologiesComponent {
       this.selectedContent =
         'Valores medios mensuales y anuales de los datos climatológicos para la estación y el periodo de años pasados por parámetro. Periodicidad de actualización: 1 vez al día. ';
     }
-    else if(this.contentToChange === 'opcion16'){
+    else if (this.contentToChange === 'opcion16') {
       this.loadClimaticData();
       this.sectionOPC16 = true;
       this.selectedTitle = '  Climatologías normales (periodo 1981-2010).  ';
@@ -175,7 +178,7 @@ export class DailyClimatologiesComponent {
         'Valores climatológicos normales (periodo 1981-2010) para la estación pasada por parámetro. Periodicidad: 1 vez al día. ';
 
     }
-    else if(this.contentToChange === 'opcion17'){
+    else if (this.contentToChange === 'opcion17') {
       this.loadClimaticData();
       this.sectionOPC17 = true;
       this.selectedTitle = '  Valores extremos.  ';
@@ -186,27 +189,27 @@ export class DailyClimatologiesComponent {
     }
   }
 
-  callToApiOPC11(): void{
+  callToApiOPC11(): void {
 
-    if(this.selectedDate !== null || this.selectedDate2 !== null){
+    if (this.selectedDate !== null || this.selectedDate2 !== null) {
       let fechaIniStr = this.selectedDate + ':00UTC';
-      let fechaFinStr =  this.selectedDate2 + ':00UTC';
+      let fechaFinStr = this.selectedDate2 + ':00UTC';
       let indicativoEMA = this.selectedIndicator;
       console.log("fechaIniStr: ", fechaIniStr);
       console.log("fechaFinStr: ", fechaFinStr);
       console.log("selectedIndicator: ", this.selectedIndicator);
     }
-    else{
+    else {
       console.log("No tienes datos que mostrar!");
       console.log(this.selectedMuni);
     }
-    
+
   }
 
-  callToApiOPC12(): void{
+  callToApiOPC12(): void {
     if (this.selectedDate !== null) {
       let fechaIniStr = this.selectedDate + ':00UTC';
-      let fechaFinStr =  this.selectedDate2 + ':00UTC';
+      let fechaFinStr = this.selectedDate2 + ':00UTC';
       console.log(fechaIniStr);
       console.log(fechaFinStr);
 
@@ -219,7 +222,7 @@ export class DailyClimatologiesComponent {
           console.log(response);
           if (response && response.datos) {
             const dataUrl = response.datos;
-  
+
             this.http.get(dataUrl).subscribe(
               (data: any) => {
                 if (data.length > 0) {
@@ -242,13 +245,13 @@ export class DailyClimatologiesComponent {
         }
       );
     }
-    else{
+    else {
       console.log("No tienes datos que mostrar!");
     }
-    
+
   }
 
-  callToApiOPC13(): void{
+  callToApiOPC13(): void {
     console.log(this.selectedIndicator);
     const apiKey = environment.apiKey;
     const apiUrl = `https://opendata.aemet.es/opendata/api/valores/climatologicos/inventarioestaciones/estaciones/${this.selectedIndicator}?api_key=${apiKey}`;
@@ -264,7 +267,7 @@ export class DailyClimatologiesComponent {
               if (data.length > 0) {
                 console.log(data);
                 this.sectionOPCResponse13 = true;
-                this.selectedIndicatorResponseApi = data;                
+                this.selectedIndicatorResponseApi = data;
               } else {
                 console.error('El arreglo de datos está vacío.');
               }
@@ -284,13 +287,13 @@ export class DailyClimatologiesComponent {
   }
 
 
-  callToApiOPC14(): void{
+  callToApiOPC14(): void {
     const apiKey = environment.apiKey;
 
     const apiUrl = `https://opendata.aemet.es/opendata/api/valores/climatologicos/inventarioestaciones/todasestaciones?api_key=${apiKey}`;
-    
+
     console.log(apiUrl);
-    
+
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         console.log(response);
@@ -301,7 +304,7 @@ export class DailyClimatologiesComponent {
             (data: any) => {
               if (data.length > 0) {
                 console.log(data);
-                
+
                 this.sectionOPCResponse14 = true;
                 this.climaticValues = data;
                 this.climaticValues.sort((a, b) => (a.provincia > b.provincia) ? 1 : -1);
@@ -324,7 +327,7 @@ export class DailyClimatologiesComponent {
     );
   }
 
-  callToApiOPC15(): void{
+  callToApiOPC15(): void {
     console.log(this.yearInput);
     console.log(this.yearInput2);
     console.log(this.selectedIndicator);
@@ -332,7 +335,7 @@ export class DailyClimatologiesComponent {
     const apiKey = environment.apiKey;
 
     const apiUrl = `https://opendata.aemet.es/opendata/api/valores/climatologicos/mensualesanuales/datos/anioini/${this.yearInput}/aniofin/${this.yearInput2}/estacion/${this.selectedIndicator}?api_key=${apiKey}`;
-    
+
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         console.log(response);
@@ -342,10 +345,10 @@ export class DailyClimatologiesComponent {
           this.http.get<climaticsValues[]>(dataUrl).subscribe(
             (data: any) => {
               if (data.length > 0) {
-                console.log(data);                
+                console.log(data);
                 this.sectionOPCResponse15 = true;
                 this.AnnualMonthlyClimateData = data;
-                console.log("Datos en la variable: ", this.AnnualMonthlyClimateData);                
+                console.log("Datos en la variable: ", this.AnnualMonthlyClimateData);
 
                 for (let i = 0; i < this.climaticValuesLoaded.length; i++) {
                   if (this.climaticValuesLoaded[i].indicativo === this.selectedIndicator) {
@@ -371,13 +374,13 @@ export class DailyClimatologiesComponent {
     );
   }
 
-  callToApiOPC16(): void{
+  callToApiOPC16(): void {
     console.log(this.selectedIndicator);
 
     const apiKey = environment.apiKey;
 
     const apiUrl = `https://opendata.aemet.es/opendata/api/valores/climatologicos/normales/estacion/${this.selectedIndicator}?api_key=${apiKey}`;
-    
+
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         console.log(response);
@@ -387,10 +390,10 @@ export class DailyClimatologiesComponent {
           this.http.get<climaticsValues[]>(dataUrl).subscribe(
             (data: any) => {
               if (data.length > 0) {
-                console.log(data);                
+                console.log(data);
                 this.sectionOPCResponse16 = true;
                 this.AnnualMonthlyClimateData = data;
-                console.log("Datos en la variable: ", this.AnnualMonthlyClimateData);                
+                console.log("Datos en la variable: ", this.AnnualMonthlyClimateData);
 
                 for (let i = 0; i < this.climaticValuesLoaded.length; i++) {
                   if (this.climaticValuesLoaded[i].indicativo === this.selectedIndicator) {
@@ -416,7 +419,7 @@ export class DailyClimatologiesComponent {
     );
   }
 
-  callToApiOPC17(){
+  callToApiOPC17() {
     console.log("this.selectweatherParameter: ", this.selectweatherParameter);
     console.log("this.selectedIndicator: ", this.selectedIndicator);
 
@@ -432,7 +435,7 @@ export class DailyClimatologiesComponent {
           this.http.get(dataUrl).subscribe(
             (data: any) => {
               if (Object.keys(data).length > 0) {
-                console.log(data);                
+                console.log(data);
                 this.sectionOPCResponse17 = true;
                 this.WeatherDataValues = data;
                 this.WeatherDataArray = Object.values(this.WeatherDataValues);
@@ -494,8 +497,4 @@ export class DailyClimatologiesComponent {
   //   window.URL.revokeObjectURL(url);
   // }
 
-  goBack(): void {
-    this.appComponente.changeStyle = false;
-    this.location.back();
-  }
 }

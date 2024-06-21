@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MapsAndChartsComponent } from './maps-and-charts/maps-and-charts.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { ClarityModule } from '@clr/angular';
+import { ClimatologicProductsComponent } from './climatologic-products/climatologic-products.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ClarityModule } from '@clr/angular';
     DailyClimatologiesComponent,
     SatelliteInformationComponent,
     MapsAndChartsComponent,
-    TeacherComponent
+    TeacherComponent,
+    ClimatologicProductsComponent
   ],
   imports: [
     BrowserModule,

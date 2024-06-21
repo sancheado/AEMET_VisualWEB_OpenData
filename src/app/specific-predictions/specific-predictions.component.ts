@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../shared.service';
 import { environment } from 'src/environments/environment';
@@ -105,6 +105,9 @@ interface DatosFormateados2 {
   styleUrls: ['./specific-predictions.component.css'],
 })
 export class SpecificPredictionsComponent {
+  @Input() data: any;
+
+
   contentToChange: string = '';
   titleSection: string = '';
   SubtitleSection: string = '';
@@ -350,11 +353,13 @@ export class SpecificPredictionsComponent {
     private http: HttpClient,
     private location: Location,
     private appComponente: AppComponent
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.appComponente.changeStyle = true;
-    this.contentToChange = this.sharedService.contentToChange;
+    this.contentToChange = this.data;
+
+    console.log("this.contentToChange; ", this.contentToChange);
 
     document.addEventListener('DOMContentLoaded', () => {
       const selectElement: HTMLSelectElement = document.getElementById(
@@ -456,8 +461,8 @@ export class SpecificPredictionsComponent {
                 this.ResponseAPI1 = true;
                 this.seccionData = this.apiData.seccion[0];
                 this.seccionData.parrafo;
-                console.log("this.seccionData: " , this.seccionData);
-                console.log("this.seccionData.parrafo: " , this.seccionData.parrafo);
+                console.log("this.seccionData: ", this.seccionData);
+                console.log("this.seccionData.parrafo: ", this.seccionData.parrafo);
               } else {
                 console.error('El arreglo de datos está vacío.');
               }
@@ -752,7 +757,7 @@ export class SpecificPredictionsComponent {
           return {
             CODAUTO:
               municipio[
-                'Relación de municipios y códigos por comunidades autónomas y provincias a 1 de enero de 2020'
+              'Relación de municipios y códigos por comunidades autónomas y provincias a 1 de enero de 2020'
               ],
             CPRO: municipio['__EMPTY'],
             CODMUN: municipio['__EMPTY_1'],
@@ -779,13 +784,13 @@ export class SpecificPredictionsComponent {
       });
   }
 
-  reformatearDate(datePass : string) {
+  reformatearDate(datePass: string) {
     const fechaOriginal = new Date(datePass);
     const fechaFormateada = format(fechaOriginal, "dd MMMM 'de' yyyy 'a las' HH:mm:ss a");
     return fechaFormateada;
   }
 
-  reformatearSecondDate(fechaString: string){
+  reformatearSecondDate(fechaString: string) {
     const fecha = new Date(fechaString);
     const dia = fecha.getDate();
     return `Día ${dia}`;

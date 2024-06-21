@@ -1,65 +1,40 @@
-<div class="daily-climatologies">
-    <section class="header-section">
-      <div class="container">
-        <div class="row">
-          <div class="body-header">
-            <a href="http://www.aemet.es" target="new"
-              ><img src="./assets/img/logo_AEMET_web.gif"
-            /></a>
-            <img src="./assets/img/logo_opendata_p.gif" />
-            <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
-            <h2 class="text-left">
-              Sistema para la visualización y reutilización de la información de
-              AEMET
-            </h2>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="container">
-      <ng-container *ngIf="sectionOPC18">
-        <ng-container *ngIf="loading">
-          <div class="centered-container Myspinner">
-            <mat-spinner>
-            </mat-spinner>
-            <p>Cargando datos...</p>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="sectionOPCResponse18 && imgRoute !== null">
-          <div class="row">
-            <h1 class="text-left">{{ selectedTitle }}</h1>
-            <h4>{{ selectedSubtitle }}</h4>
-            <div class="search-box">
-              <a [href]="imgRoute" target="_blank">
-                <img [src]="imgRoute" class="imgApi" alt="Imagen obtenida con una combinación de los datos de los canales infrarrojos del satélite NOAA-19, que nos da la temperatura de la superficie del mar. Esta imagen se renueva todos los días a última hora y contiene los datos acumulados de los últimos siete días.">
-              </a>
-            </div>
-          </div>
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="sectionOPC19">
-        <ng-container *ngIf="loading">
-          <div class="centered-container Myspinner">
-            <mat-spinner>
-            </mat-spinner>
-            <p>Cargando datos...</p>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="sectionOPCResponse19 && imgRoute !== null">
-          <div class="row">
-            <h1 class="text-left">{{ selectedTitle }}</h1>
-            <h4>{{ selectedSubtitle }}</h4>
-            <div class="search-box">
-              <a [href]="imgRoute" target="_blank">
-                <img [src]="imgRoute" class="imgApi" alt="Imagen obtenida con una combinación de los datos de los canales infrarrojos del satélite NOAA-19, que nos da la temperatura de la superficie del mar. Esta imagen se renueva todos los días a última hora y contiene los datos acumulados de los últimos siete días.">
-              </a>
-            </div>
-          </div>
-        </ng-container>
-      </ng-container>
-    <div class="row">
-        <button class="btn btnBack mx-auto" (click)="goBack()">
-          Volver atrás
-        </button>
+<ng-container *ngIf="sectionOPC18">
+  <ng-container *ngIf="loading">
+    <div class="centered-container Myspinner">
+      <mat-spinner>
+      </mat-spinner>
+      <p>Cargando datos...</p>
     </div>
-</div>
+  </ng-container>
+  <ng-container *ngIf="sectionOPCResponse18 && imgRoute !== null">
+    <div class="row">
+      <h1 class="text-left">{{ selectedTitle }}</h1>
+      <h4>{{ selectedSubtitle }}</h4>
+      <div class="search-box">
+        <a [href]="imgRoute" target="_blank">
+          <img [src]="imgRoute" class="imgApi" alt="Imagen obtenida con una combinación de los datos de los canales infrarrojos del satélite NOAA-19, que nos da la temperatura de la superficie del mar. Esta imagen se renueva todos los días a última hora y contiene los datos acumulados de los últimos siete días.">
+        </a>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="sectionOPC19">
+  <ng-container *ngIf="loading">
+    <div class="centered-container Myspinner">
+      <mat-spinner>
+      </mat-spinner>
+      <p>Cargando datos...</p>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="sectionOPCResponse19 && imgRoute !== null">
+    <div class="row">
+      <h1 class="text-left">{{ selectedTitle }}</h1>
+      <h4>{{ selectedSubtitle }}</h4>
+      <div class="search-box">
+        <a [href]="imgRoute" target="_blank">
+          <img [src]="imgRoute" class="imgApi" alt="Imagen obtenida con una combinación de los datos de los canales infrarrojos del satélite NOAA-19, que nos da la temperatura de la superficie del mar. Esta imagen se renueva todos los días a última hora y contiene los datos acumulados de los últimos siete días.">
+        </a>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

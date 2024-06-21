@@ -1,211 +1,883 @@
-<div [ngClass]="{'changeStyle': changeStyle}" class="appComponent">
-  <section class="header-section">
-    <div class="container">
-      <div class="row">
-        <div class="body-header">
-          <a href="http://www.aemet.es" target="new"
-            ><img src="./assets/img/logo_AEMET_web.gif"
-          /></a>
-          <img src="./assets/img/logo_opendata_p.gif" />
-          <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
-          <h2 class="text-left">
-            Sistema para la visualización y reutilización de la información de
-            AEMET
-          </h2>
-        </div>
+<section class="header-section" #headerSection>
+  <div class="container">
+    <div class="row">
+      <div class="body-header">
+        <a href="http://www.aemet.es" target="new"
+          ><img src="./assets/img/logo_AEMET_web.gif"
+        /></a>
+        <img src="./assets/img/logo_opendata_p.gif" />
+        <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
+        <h3 class="text-left">
+          Sistema para la visualización y reutilización de la información de
+          AEMET
+        </h3>
       </div>
     </div>
-  </section>
-  <div class="clr-row">
-    <div class="clr-col-lg-5 clr-col-md-8 clr-col-12 myCard">
-      <div class="card">
-        <div class="card-header">Escoga 1 acción:</div>
-        <div class="card-block">
-          <div class="card-title"></div>
-          <div class="card-text">
-            <select id="action" (change)="onOptionChange()" [(ngModel)]="selectedOption">
-              <optgroup label="Predicciones Especificas">
-                <option *ngFor="let option of opcionesGrupo1" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Observacion Convencional">
-                <option *ngFor="let option of opcionesGrupo2" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Valores Climatologicos">
-                <option *ngFor="let option of opcionesGrupo3" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Informacion Satelite">
-                <option *ngFor="let option of opcionesGrupo4" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Mapas Y Graficos">
-                <option *ngFor="let option of opcionesGrupo5" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Maestro">
-                <option *ngFor="let option of opcionesGrupo6" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Productos Climatologicos">
-                <option *ngFor="let option of opcionesGrupo7" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Prediccion Maritima">
-                <option *ngFor="let option of opcionesGrupo8" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Redes Especiales">
-                <option *ngFor="let option of opcionesGrupo9" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Red-Rayos">
-                <option *ngFor="let option of opcionesGrupo10" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Indices-Incendios">
-                <option *ngFor="let option of opcionesGrupo11" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Predicciones-normalizadas-texto">
-                <option *ngFor="let option of opcionesGrupo12" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Red Radares">
-                <option *ngFor="let option of opcionesGrupo13" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Avisos">
-                <option *ngFor="let option of opcionesGrupo14" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-              <optgroup label="Antartida">
-                <option *ngFor="let option of opcionesGrupo15" [ngValue]="option">
-                  {{ option.option }}
-                </option>
-              </optgroup>
-            </select>
+  </div>
+</section>
+<div class="clr-row lblSelectorPag" #lblSelectorPag> 
+  <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-4">
+    <h3 class="h3SelectorPage">
+      Seleccione 1 opción: 
+    </h3>
+  </div>
+  <div class="clr-col-lg-8 clr-col-md-8 clr-col-sm-8">
+    <select id="action" (change)="onSectionChange()" [(ngModel)]="selectedSection" class="selectSections">
+      <option *ngFor="let modulo of modulos" [value]="modulo.value">
+        {{ modulo.value }}
+      </option>
+    </select>
+  </div>
+</div>
+<section class="clr-row sectionBody" #sectionBody>
+  <div *ngIf="opt1">
+    <div class="clr-row">
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo1[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo1[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo1[0].value)">
+                Continuar
+              </button>
+            </div>
           </div>
         </div>
-        <div class="card-footer">
-          <div class="clr-row">
-            <button type="button" class="btn-search btnDiv" (click)="onContinueClick()">Continuar</button>
-            <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
-            <p>&copy; Made by Sanchez</p>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo1[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo1[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo1[1].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo1[2].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo1[2].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo1[2].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo1[3].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo1[3].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo1[3].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo1[4].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo1[4].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo1[4].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo1[5].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo1[5].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo1[5].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo1[6].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo1[6].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo1[6].value)">
+                Continuar
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
- 
- 
- 
- 
-  <!-- <div class="search-box">
-    <label for="action">Acción:</label>
-    <select id="action" (change)="onOptionChange()" [(ngModel)]="selectedOption">
-      <optgroup label="Predicciones Especificas">
-        <option *ngFor="let option of opcionesGrupo1" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Observacion Convencional">
-        <option *ngFor="let option of opcionesGrupo2" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Valores Climatologicos">
-        <option *ngFor="let option of opcionesGrupo3" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Informacion Satelite">
-        <option *ngFor="let option of opcionesGrupo4" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Mapas Y Graficos">
-        <option *ngFor="let option of opcionesGrupo5" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Maestro">
-        <option *ngFor="let option of opcionesGrupo6" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Productos Climatologicos">
-        <option *ngFor="let option of opcionesGrupo7" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Prediccion Maritima">
-        <option *ngFor="let option of opcionesGrupo8" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Redes Especiales">
-        <option *ngFor="let option of opcionesGrupo9" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Red-Rayos">
-        <option *ngFor="let option of opcionesGrupo10" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Indices-Incendios">
-        <option *ngFor="let option of opcionesGrupo11" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Predicciones-normalizadas-texto">
-        <option *ngFor="let option of opcionesGrupo12" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Red Radares">
-        <option *ngFor="let option of opcionesGrupo13" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Avisos">
-        <option *ngFor="let option of opcionesGrupo14" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-      <optgroup label="Antartida">
-        <option *ngFor="let option of opcionesGrupo15" [ngValue]="option">
-          {{ option.option }}
-        </option>
-      </optgroup>
-    </select>
-    <textarea id="explicationTextArea" rows="5" [value]="selectedOption.explication" disabled></textarea>
-    <div class="btnDiv">
-      <button type="button" class="btn-search" (click)="onContinueClick()">Continuar</button>
+  <div *ngIf="!opt1 && specificPredictions" style="width:100%;">
+    <app-specific-predictions [data]="selectedOption2"></app-specific-predictions>
+    <div class="row">
+      <button class="btn btnBack mx-auto" (click)="goBack(selectedOption2)">
+        Volver atrás
+      </button>
     </div>
-  </div> -->
-</div>
-
-
-<!-- <footer>
-  <h1 class="text-left">AEMET <span>Visual-WEB</span> OpenData</h1>
-  <p>&copy; Made by Sanchez</p>
-</footer> -->
-
-<router-outlet></router-outlet>
+  </div>
+  <div *ngIf="opt2">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo2[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo2[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo2[0].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo2[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo2[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo2[1].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo2[2].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo2[2].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo2[2].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>     
+    </div>
+  </div>
+  <div *ngIf="!opt2 && observationConvetional" style="width:100%;">
+    <app-observation-conventional [data]="selectedOption2"></app-observation-conventional>
+    <div class="row">
+      <button class="btn btnBack mx-auto" (click)="goBack(selectedOption2)">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+  <div *ngIf="opt3">
+    <div class="clr-row">
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo3[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo3[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo3[0].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo3[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo3[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo3[1].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo3[2].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo3[2].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo3[2].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo3[3].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo3[3].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo3[3].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo3[4].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo3[4].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo3[4].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo3[5].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo3[5].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo3[5].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo3[6].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo3[6].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo3[6].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!opt3 && climaticValues" style="width:100%;">
+    <app-daily-climatologies [data]="selectedOption2"></app-daily-climatologies>
+    <div class="row">
+      <button class="btn btnBack mx-auto" (click)="goBack(selectedOption2)">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+  <div *ngIf="opt4">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo4[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo4[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo4[0].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo4[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo4[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo4[1].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>           
+    </div>
+  </div>
+  <div *ngIf="!opt4 && satelitteInformation" style="width:100%;">
+    <module-satellite-information [data]="selectedOption2"></module-satellite-information>
+    <div class="row">
+      <button class="btn btnBack mx-auto" (click)="goBack(selectedOption2)">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+  <div *ngIf="opt5">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo5[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo5[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo5[0].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo5[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo5[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo5[1].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>           
+    </div>
+  </div>
+  <div *ngIf="!opt5 && mapsCharts" style="width:100%;">
+    <module-maps-and-charts [data]="selectedOption2"></module-maps-and-charts>
+    <div class="row">
+      <button class="btn btnBack mx-auto" (click)="goBack(selectedOption2)">
+        Volver atrás
+      </button>
+    </div>
+  </div>
+  <div *ngIf="opt6">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo6[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo6[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo6[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo6[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>           
+    </div>
+  </div>
+  <div *ngIf="opt7">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo7[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo7[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo7[0].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo7[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo7[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo7[1].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo7[2].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo7[2].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(opcionesGrupo7[2].value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>     
+    </div>
+  </div>
+  <div *ngIf="!opt7 && climatologicProduct">
+    <module-climatologic-products [data]="selectedOption2"></module-climatologic-products>
+  </div>
+  <div *ngIf="opt8">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo8[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo8[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo8[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo8[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>           
+    </div>
+  </div>
+  <div *ngIf="opt9">
+    <div class="clr-row">
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo9[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo9[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep('opcion1')">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo9[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo9[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep('opcion2')">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo9[2].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo9[2].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep('opcion3')">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo9[3].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo9[3].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep('opcion4')">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="opt10" style="width:100%;">
+    <div class="clr-row">
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo10[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo10[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep('opcion1')">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="opt11">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo11[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo11[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo11[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo11[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>           
+    </div>
+  </div>
+  <div *ngIf="opt12">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6" *ngFor="let option of paginatedOptions; let i = index">
+        <div class="clr-row" *ngIf="i < 6">
+          <div class="card miCard">
+            <div class="card-header">{{option.option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{option.explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep(option.value)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-row">
+        <div class="pagination-controls">
+          <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+          <button (click)="nextPage()" [disabled]="(currentPage * itemsPerPage) >= opcionesGrupo12.length">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="opt13">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo13[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo13[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo13[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo13[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>           
+    </div>
+  </div>
+  <div *ngIf="opt14">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo14[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo14[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo14[1].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo14[1].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>           
+    </div>
+  </div>
+  <div *ngIf="opt15" style="width:100%">
+    <div class="clr-row">
+      <div class="clr-col-lg-3 clr-col-md-4 clr-col-sm-6">
+        <div class="clr-row">
+          <div class="card miCard">
+            <div class="card-header">{{opcionesGrupo15[0].option}}</div>
+            <div class="card-block">
+              <div class="card-title"></div>
+              <div class="card-text">
+                {{opcionesGrupo15[0].explication}}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn-search btnDiv" (click)="nextStep('opcion1')">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <router-outlet>
+  
+</router-outlet> -->

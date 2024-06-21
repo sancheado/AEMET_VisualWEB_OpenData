@@ -1,21 +1,28 @@
+/* Los nuevos para clarity */
 body {
-  background-color: #f8f9fa;
+  width: 99.3% !important;
+  height: 100vh;
+  background: #000000;
 }
 
 .header-section {
   background-image: url(../assets/img/fondo.jpg);
   background-size: cover;
+  height: 20vh;
+  width: 100vw;
 }
 
 .body-header {
   position: relative;
-  padding-top: 8%;
-  padding-bottom: 8%;
+  padding-top: 2%;
 }
 
-.body-header h1,
-.body-header h2 {
+.body-header h1 {
   color: #fff;
+}
+
+.body-header h3 {
+  color: #000000 !important;
 }
 
 .body-header h1 span {
@@ -27,41 +34,71 @@ body {
   font-size: 1.5rem;
 }
 
-.btnRow {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-  margin: 9px;
+.yellowColor {
+  color: #fbcf00 !important;
+  font-weight: 500;
 }
 
-.btnRow p {
-  font-size: 0.6rem;
-  width: 80%;
+.blackText {
+  color: #000000 !important;
+  font-weight: 500;
 }
 
-.btn-info {
-  width: 20%;
+.lblSelectorPag {
+  background: #000000 !important;
+  color: #fff;
+  padding-left: .9rem !important;
+  width: 100.6vw;
 }
 
-.search-box {
-  width: 100%;
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
+.sectionBody {
+  background: #f8f9fa;
+  color: #000000;
+  width: 95%;
+  height: 64vh;
+  margin: 10px auto !important;
+}
+
+.selectSections {
+  padding: 5px;
+  margin: 1px auto;
+  width: 45%;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  font-size: .9rem;
+  margin: 10px auto;
 }
 
-.search-box label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 10px;
+.h3SelectorPage {
+  font-family: monospace;
+  margin-left: 25px;
+  font-size: 1.2rem;
+  margin-top: 11px;
 }
 
-/* .search-box label[for=explication], textarea{
-  display: none;
-} */
+.miCard {
+  height: 30vh !important;
+  width: 80% !important;
+  margin: 10px auto;
+}
+
+.card-block {
+  height: 150px;
+}
+
+.card-footer {
+  height: 100px;
+}
+
+.btnBack {
+  background-color: #5785b3;
+  color: #ccc;
+  border: 0.6px solid lightgrey;
+  width: 25%;
+  margin: 15px;
+  margin-bottom: 100px !important;
+}
+
 
 textarea {
   border: 0.5px solid lightgrey;
@@ -69,17 +106,23 @@ textarea {
   height: 225px;
 }
 
-.search-box select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.btnDiv {
+  display: flex;
+  justify-content: center;
 }
 
-.search-box .btn-search {
-  display: inline-block;
+.myCard {
+  margin: 1rem auto !important;
+}
+
+
+.lblText {
+  padding-left: 25px !important;
+  color: #000000 !important;
+
+}
+
+.btn-search {
   padding: 10px 20px;
   background-color: #fbcf00;
   color: #f8f9fa;
@@ -87,46 +130,27 @@ textarea {
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
+  margin: auto;
 }
 
-.btnDiv {
-  display: flex;
-  justify-content: center;
+.btn-search:hover {
+  color: black;
 }
 
-.search-box .btn-search i {
-  margin-right: 8px;
+.selectInfo {
+  padding: 2.5px;
+  margin-bottom: 12.5px;
+  width: 98.5%;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .8rem;
 }
 
-.jumbotron {
-  background-color: #007bff;
-  color: #fff;
-  text-align: center;
-  padding: 1rem;
-}
-
-footer {
-  background-color: #5788b1;
-  color: #fff;
-  text-align: center;
-  padding: 1rem;
-  position: fixed;
-  bottom: 0;
-  width: 98.8%;
-}
-
-.changeStyle {
-  display: none;
-}
-
-
-
-/* Los nuevos para clarity */
-.myCard {
-  margin: 1rem auto !important;
-}
-
-.card-text {
-  display: flex;
-  justify-content: center;
+@media (max-width: 768px) {
+  .body-header h2 {
+    font-size: .9rem;
+  }
 }

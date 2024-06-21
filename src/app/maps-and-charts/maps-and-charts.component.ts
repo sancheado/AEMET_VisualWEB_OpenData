@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { SharedService } from '../shared.service';
 import { HttpClient } from '@angular/common/http';
@@ -17,11 +17,13 @@ interface ambito {
 }
 
 @Component({
-  selector: 'app-maps-and-charts',
+  selector: 'module-maps-and-charts',
   templateUrl: './maps-and-charts.component.html',
   styleUrls: ['./maps-and-charts.component.css'],
 })
 export class MapsAndChartsComponent {
+  @Input() data: any;
+
   contentToChange: string = '';
 
   selectedTitle: string = '';
@@ -79,11 +81,12 @@ export class MapsAndChartsComponent {
     private sharedService: SharedService,
     private location: Location,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.appComponente.changeStyle = true;
-    this.contentToChange = this.sharedService.contentToChange;
+    this.contentToChange = this.data;
+    // this.contentToChange = this.sharedService.contentToChange;
 
     console.log('this.contentToChange: ', this.contentToChange);
 
@@ -153,30 +156,30 @@ export class MapsAndChartsComponent {
     );
   }
 
-  callToApiOPC21(): void  {
+  callToApiOPC21(): void {
     const apiKey = environment.apiKey;
     this.selectedDate = new Date(this.selectedDate);
     console.log('selectedDate1: ', this.selectedDate);
-    
+
     if (this.selectedDate instanceof Date) {
       const year = this.selectedDate.getFullYear();
       const month = this.selectedDate.getMonth() + 1;
       const day = this.selectedDate.getDate();
-      
+
       const monthFormatted = month < 10 ? `0${month}` : month.toString();
       const dayFormatted = day < 10 ? `0${day}` : day.toString();
       const dateString = `${year}-${monthFormatted}-${dayFormatted}`;
       console.log('dateString: ', dateString);
       console.log('ambiiiito: ', this.ambiiiito);
       console.log('diiia: ', this.diiia);
-      
+
       const apiUrl = `https://opendata.aemet.es/opendata/api/mapasygraficos/mapassignificativos/fecha/${dateString}/${this.ambiiiito}/${this.diiia}?api_key=${apiKey}`;
       this.http.get(apiUrl).subscribe(
         (response: any) => {
           console.log(response);
           if (response && response.datos) {
             const dataUrl = response.datos;
-  
+
             this.http.get(dataUrl).subscribe(
               (data: any) => {
                 if (data.length > 0) {

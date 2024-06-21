@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../shared.service';
@@ -7,17 +7,18 @@ import { environment } from 'src/environments/environment';
 import { Observable, Subject } from 'rxjs';
 import { catchError, delay, takeUntil, tap } from 'rxjs/operators';
 @Component({
-  selector: 'app-satellite-information',
+  selector: 'module-satellite-information',
   templateUrl: './satellite-information.component.html',
   styleUrls: ['./satellite-information.component.css']
 })
 export class SatelliteInformationComponent {
+  @Input() data: any;
   contentToChange: string = '';
 
   selectedTitle: string = '';
   selectedSubtitle: string = '';
   selectedContent: string = '';
-  
+
 
   sectionOPC18: boolean = false;
   sectionOPCResponse18: boolean = false;
@@ -34,12 +35,13 @@ export class SatelliteInformationComponent {
     private sharedService: SharedService,
     private location: Location,
     private http: HttpClient,
-  ) {}
-  
+  ) { }
+
   ngOnInit(): void {
     this.appComponente.changeStyle = true;
-    this.contentToChange = this.sharedService.contentToChange;
-    
+    this.contentToChange = this.data;
+    // this.contentToChange = this.sharedService.contentToChange;
+
     if (this.contentToChange === 'opcion18') {
       this.loading = true;
       this.sectionOPC18 = true;
@@ -47,18 +49,18 @@ export class SatelliteInformationComponent {
       this.selectedSubtitle = 'Esta imagen se realiza con una combinación de los datos del canal visible y del infrarrojo cercano del satélite NOAA-19, que nos da una idea del desarrollo de la vegetación. Esto es así debido a que la vegetación absorbe fuertemente la radiación del canal visible, pero refleja fuertemente la del infrarrojo cercano. Esta imagen se renueva los jueves a última hora y contiene los datos acumulados de la última semana. ';
       this.selectedContent =
         'Esta imagen se realiza con una combinación de los datos del canal visible y del infrarrojo cercano del satélite NOAA-19, que nos da una idea del desarrollo de la vegetación. Esto es así debido a que la vegetación absorbe fuertemente la radiación del canal visible, pero refleja fuertemente la del infrarrojo cercano. Esta imagen se renueva los jueves a última hora y contiene los datos acumulados de la última semana. ';
-        this.callToApiOPC18().pipe(takeUntil(this.destroy$)).subscribe(
-          (data: any) => {
-            this.imgRoute = data.datos;          
-            this.loading = false;
-            this.sectionOPCResponse18 = true;
-          },
-          (error) => {
-            console.error('Error al obtener los datos de la API:', error);
-          }
-        );
+      this.callToApiOPC18().pipe(takeUntil(this.destroy$)).subscribe(
+        (data: any) => {
+          this.imgRoute = data.datos;
+          this.loading = false;
+          this.sectionOPCResponse18 = true;
+        },
+        (error) => {
+          console.error('Error al obtener los datos de la API:', error);
+        }
+      );
     }
-    else if(this.contentToChange === 'opcion19'){
+    else if (this.contentToChange === 'opcion19') {
       this.loading = true;
       this.sectionOPC19 = true;
       this.selectedTitle = ' Temperatura del agua del mar. ';
@@ -68,7 +70,7 @@ export class SatelliteInformationComponent {
 
       this.callToApiOPC19().pipe(takeUntil(this.destroy$)).subscribe(
         (data: any) => {
-          this.imgRoute = data.datos;          
+          this.imgRoute = data.datos;
           this.loading = false;
           this.sectionOPCResponse19 = true;
         },
@@ -87,7 +89,7 @@ export class SatelliteInformationComponent {
       tap((response: any) => {
         console.log("response: ", response);
         if (response && response.datos) {
-          const dataUrl = response.datos;          
+          const dataUrl = response.datos;
           return this.http.get(dataUrl);
         } else {
           throw new Error('La respuesta de la API no contiene el campo "datos".');
@@ -99,17 +101,17 @@ export class SatelliteInformationComponent {
         throw error;
       })
     );
-    
+
   }
 
   callToApiOPC19(): Observable<any> {
     const apiKey = environment.apiKey;
     const apiUrl = `https://opendata.aemet.es/opendata/api/satelites/producto/sst?api_key=${apiKey}`;
-  
+
     return this.http.get(apiUrl).pipe(
       tap((response: any) => {
         if (response && response.datos) {
-          const dataUrl = response.datos;          
+          const dataUrl = response.datos;
           return this.http.get(dataUrl);
         } else {
           throw new Error('La respuesta de la API no contiene el campo "datos".');
@@ -122,7 +124,7 @@ export class SatelliteInformationComponent {
       })
     );
   }
-  
+
   goBack(): void {
     this.appComponente.changeStyle = false;
     this.location.back();
