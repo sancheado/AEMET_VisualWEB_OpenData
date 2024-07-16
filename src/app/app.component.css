@@ -76,18 +76,23 @@ body {
   margin-top: 11px;
 }
 
-.miCard {
-  height: 30vh !important;
+.miCard,
+.miCard2 {
+
   width: 80% !important;
   margin: 10px auto;
 }
 
-.card-block {
-  height: 150px;
+.miCard2 {
+  height: 300px !important;
 }
 
-.card-footer {
-  height: 100px;
+.fourItems {
+  height: 325px !important;
+}
+
+.card-block {
+  height: 150px;
 }
 
 .btnBack {
@@ -123,7 +128,7 @@ textarea {
 }
 
 .btn-search {
-  padding: 10px 20px;
+  padding: 5px 20px;
   background-color: #fbcf00;
   color: #f8f9fa;
   border: none;
