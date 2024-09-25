@@ -463,6 +463,33 @@ export class SpecificPredictionsComponent {
                 this.seccionData.parrafo;
                 console.log("this.seccionData: ", this.seccionData);
                 console.log("this.seccionData.parrafo: ", this.seccionData.parrafo);
+
+                const parrafos = this.seccionData.parrafo;
+
+                let precipitacion = '';
+                let tempMinimas = '';
+                let tempMaximas = '';
+                let viento = '';
+
+                parrafos.forEach((parrafo: any) => {
+                  const texto = parrafo.texto;
+
+                  if (texto.includes('PRECIPITACIÓN:')) {
+                    precipitacion = texto;
+                  } else if (texto.includes('TEMPERATURAS MÍNIMAS:')) {
+                    tempMinimas = texto;
+                  } else if (texto.includes('TEMPERATURAS MÁXIMAS:')) {
+                    tempMaximas = texto;
+                  } else if (texto.includes('VIENTO:')) {
+                    viento = texto;
+                  }
+                });
+
+                // Luego puedes usar las variables precipitacion, tempMinimas, tempMaximas, y viento
+                console.log('Precipitación:', precipitacion);
+                console.log('Temperaturas Mínimas:', tempMinimas);
+                console.log('Temperaturas Máximas:', tempMaximas);
+                console.log('Viento:', viento);
               } else {
                 console.error('El arreglo de datos está vacío.');
               }

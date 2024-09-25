@@ -8,13 +8,13 @@ body {
 .header-section {
   background-image: url(../assets/img/fondo.jpg);
   background-size: cover;
-  height: 20vh;
+  height: 25vh;
   width: 100vw;
 }
 
 .body-header {
   position: relative;
-  padding-top: 2%;
+  padding-top: 4%;
 }
 
 .body-header h1 {
@@ -49,14 +49,15 @@ body {
   color: #fff;
   padding-left: .9rem !important;
   width: 100.6vw;
+  font-family: 'Roboto', sans-serif;
 }
 
 .sectionBody {
   background: #f8f9fa;
   color: #000000;
-  width: 95%;
-  height: 64vh;
-  margin: 10px auto !important;
+  width: 99.4vw;
+  height: 65vh;
+  margin: 10px 0px auto !important;
 }
 
 .selectSections {
@@ -65,15 +66,19 @@ body {
   width: 45%;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: .9rem;
   margin: 10px auto;
+  font-size: .9rem;
+  font-family: 'Roboto', sans-serif;
 }
 
 .h3SelectorPage {
-  font-family: monospace;
-  margin-left: 25px;
-  font-size: 1.2rem;
-  margin-top: 11px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: end;
+  font-size: 1rem;
+  margin-top: 16px;
+  font-weight: 700;
+  width: 100%;
 }
 
 .miCard,
@@ -84,7 +89,7 @@ body {
 }
 
 .miCard2 {
-  height: 300px !important;
+  height: auto !important;
 }
 
 .fourItems {
@@ -92,7 +97,7 @@ body {
 }
 
 .card-block {
-  height: 150px;
+  height: auto !important;
 }
 
 .btnBack {
@@ -158,4 +163,16 @@ textarea {
   .body-header h2 {
     font-size: .9rem;
   }
+}
+
+.card {
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.clr-row {
+  display: flex;
+  flex-wrap: wrap;
 }
