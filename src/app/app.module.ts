@@ -13,6 +13,7 @@ import { MapsAndChartsComponent } from './maps-and-charts/maps-and-charts.compon
 import { TeacherComponent } from './teacher/teacher.component';
 import { ClarityModule } from '@clr/angular';
 import { ClimatologicProductsComponent } from './climatologic-products/climatologic-products.component';
+import { PruebaTestComponent } from './prueba-test/prueba-test.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ClimatologicProductsComponent } from './climatologic-products/climatolo
     SatelliteInformationComponent,
     MapsAndChartsComponent,
     TeacherComponent,
-    ClimatologicProductsComponent
+    ClimatologicProductsComponent,
+    PruebaTestComponent
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,8 @@ import { SatelliteInformationComponent } from './satellite-information/satellite
 import { MapsAndChartsComponent } from './maps-and-charts/maps-and-charts.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { ClimatologicProductsComponent } from './climatologic-products/climatologic-products.component';
+import { AppComponent } from './app.component';
+import { PruebaTestComponent } from './prueba-test/prueba-test.component'; // Importa el nuevo componente
 
 const routes: Routes = [
   { path: '', redirectTo: 'app-root', pathMatch: 'full' },
@@ -17,6 +19,7 @@ const routes: Routes = [
   { path: 'maps-charts', component: MapsAndChartsComponent, pathMatch: 'full' },
   { path: 'teacher-teacher', component: TeacherComponent, pathMatch: 'full' },
   { path: 'climatologic-products', component: ClimatologicProductsComponent, pathMatch: 'full' },
+  { path: 'pruebaTest', component: PruebaTestComponent }, // Nueva ruta
 ];
 
 @NgModule({
